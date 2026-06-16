@@ -22,5 +22,12 @@
       });
     }
   </script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+<script>
+  if (window.location.hash.includes("invite_token") || window.location.hash.includes("recovery_token")) {
+    window.location.href = "/admin/" + window.location.hash;
+  }
+</script>
 </body>
 </html>
