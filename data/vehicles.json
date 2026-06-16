@@ -1,44 +1,65 @@
 {
   "vehicles": [
     {
-      "id": "honda-accord-2018",
-      "title": "Honda Accord Touring",
-      "brand": "Honda",
-      "model": "Accord Touring",
-      "year": 2018,
-      "price": 18995,
-      "mileage": 128000,
       "transmission": "Automatique",
-      "fuel": "Essence",
-      "vin": "1HGCV1F90JA000000",
+      "brand": "Honda",
+      "price": 18995,
       "carfax": "",
+      "model": "Accord Touring",
+      "mileage": 128000,
+      "description_en": "Clean pre-owned vehicle.",
       "featured": true,
+      "description_fr": "Véhicule d'occasion propre.",
       "status": "Disponible",
+      "fuel": "Essence",
+      "title": "Honda Accord Touring",
       "images": [
         "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
       ],
-      "description_fr": "Véhicule d'occasion propre.",
-      "description_en": "Clean pre-owned vehicle."
+      "vin": "1HGCV1F90JA000000",
+      "id": "honda-accord-2018",
+      "year": 2018
     },
     {
-      "id": "mazda-3-2018",
-      "title": "Mazda 3 Touring",
-      "brand": "Mazda",
-      "model": "3 Touring",
-      "year": 2018,
-      "price": 13995,
-      "mileage": 118000,
       "transmission": "Automatique",
-      "fuel": "Essence",
-      "vin": "JM1BN1V70J0000000",
+      "brand": "Mazda",
+      "price": 13995,
       "carfax": "",
+      "model": "3 Touring",
+      "mileage": 118000,
+      "description_en": "Reliable compact car.",
       "featured": true,
+      "description_fr": "Compacte fiable.",
       "status": "Disponible",
+      "fuel": "Essence",
+      "title": "Mazda 3 Touring",
       "images": [
         "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80"
       ],
-      "description_fr": "Compacte fiable.",
-      "description_en": "Reliable compact car."
+      "vin": "JM1BN1V70J0000000",
+      "id": "mazda-3-2018",
+      "year": 2018
+    }
+  ],
+  "vehicules": [
+    {
+      "transmission": "Automatique",
+      "brand": "Honda",
+      "price": 16498,
+      "carfax": "https://vhr.carfax.ca/?id=PYHXsBfrQsUmYcUzruTJPAPYAUVnuf05",
+      "model": "Accord EX-L 2016",
+      "mileage": 115000,
+      "featured": true,
+      "description_fr": "Honda Accord EXL 2016 118,000 km\n\n* Starter \n* GPS\n* Blind spot Camera\n* Reversing camera\n* Trip Computer\n* Keyless Entry\n* Leather Wrap Wheel\n* AM/FM Stereo\n* Cruise Control\n* Power Locks\n* Air Conditioning\n* Child-Safety Locks\n* Power Seat\n* Stability Control\n* Traction Control\n* Anti-Lock Brakes (ABS)\n* Driver Side Airbag\n* Dual Climate Controls\nEt bien plus encore \n\nPour plus d’informations, communiquez avec nous",
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "Honda Accord EX-L 2016",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-16-at-4.57.16-pm-1-.jpeg"
+      ],
+      "vin": "1HGCR2F8XGA806056 ",
+      "id": "Honda Accord 2016",
+      "year": 2016
     }
   ]
 }
