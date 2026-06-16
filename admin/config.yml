@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: Hashem-cell/sharboauto-site
   branch: main
 
 media_folder: "assets/images/uploads"
