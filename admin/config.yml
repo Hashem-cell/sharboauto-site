@@ -19,7 +19,7 @@ collections:
         format: "json"
         fields:
           - label: "Véhicules"
-            name: "Vehicules"
+            name: "vehicules"
             widget: "list"
             summary: "{{fields.title}} - {{fields.year}} - ${{fields.price}}"
             fields:
