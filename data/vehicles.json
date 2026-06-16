@@ -1,0 +1,42 @@
+[
+  {
+    "id": "honda-accord-2018",
+    "title": "Honda Accord Touring",
+    "brand": "Honda",
+    "model": "Accord Touring",
+    "year": 2018,
+    "price": 18995,
+    "mileage": 128000,
+    "transmission": "Automatique",
+    "fuel": "Essence",
+    "vin": "1HGCV1F90JA000000",
+    "carfax": "",
+    "featured": true,
+    "status": "Disponible",
+    "images": [
+      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "description_fr": "Véhicule d'occasion propre, bien équipé et prêt pour la route. Rapport Carfax disponible.",
+    "description_en": "Clean pre-owned vehicle, well equipped and ready for the road. Carfax report available."
+  },
+  {
+    "id": "mazda-3-2018",
+    "title": "Mazda 3 Touring",
+    "brand": "Mazda",
+    "model": "3 Touring",
+    "year": 2018,
+    "price": 13995,
+    "mileage": 118000,
+    "transmission": "Automatique",
+    "fuel": "Essence",
+    "vin": "JM1BN1V70J0000000",
+    "carfax": "",
+    "featured": true,
+    "status": "Disponible",
+    "images": [
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "description_fr": "Compacte fiable, économique et parfaite pour la conduite quotidienne.",
+    "description_en": "Reliable and fuel-efficient compact car, perfect for daily driving."
+  }
+]
