@@ -61,7 +61,7 @@ function km(value) {
 }
 
 function safeImages(car) {
-  return car.images && car.images.length ? car.images : ["/assets/images/logo.jpeg"];
+  return car.images && car.images.length ? car.images : ["/assets/images/logo.png"];
 }
 
 function statusBadge(c) {
