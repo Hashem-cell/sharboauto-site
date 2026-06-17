@@ -21,26 +21,102 @@ collections:
           - label: "Véhicules"
             name: "vehicles"
             widget: "list"
+            summary: "{{fields.title}} - {{fields.year}} - ${{fields.price}}"
             fields:
-              - { label: "ID", name: "id", widget: "string" }
-              - { label: "Titre", name: "title", widget: "string" }
-              - { label: "Marque", name: "brand", widget: "string" }
-              - { label: "Modèle", name: "model", widget: "string" }
-              - { label: "Année", name: "year", widget: "number" }
-              - { label: "Prix", name: "price", widget: "number" }
-              - { label: "Kilométrage", name: "mileage", widget: "number" }
-              - { label: "Transmission", name: "transmission", widget: "string" }
-              - { label: "Carburant", name: "fuel", widget: "string" }
-              - { label: "VIN", name: "vin", widget: "string", required: false }
-              - { label: "Statut", name: "status", widget: "string" }
-              - { label: "Vedette", name: "featured", widget: "boolean", required: false }
-              - label: "Images"
+              - label: "ID unique"
+                name: "id"
+                widget: "string"
+                hint: "Ex: honda-accord-2016"
+
+              - label: "Titre"
+                name: "title"
+                widget: "string"
+                hint: "Ex: Honda Accord EX-L 2016"
+
+              - label: "Marque"
+                name: "brand"
+                widget: "string"
+                hint: "Ex: Honda"
+
+              - label: "Modèle"
+                name: "model"
+                widget: "string"
+                hint: "Ex: Accord EX-L"
+
+              - label: "Année"
+                name: "year"
+                widget: "number"
+                value_type: "int"
+
+              - label: "Prix"
+                name: "price"
+                widget: "number"
+                value_type: "int"
+
+              - label: "Kilométrage"
+                name: "mileage"
+                widget: "number"
+                value_type: "int"
+
+              - label: "Transmission"
+                name: "transmission"
+                widget: "select"
+                options:
+                  - "Automatique"
+                  - "Manuelle"
+                  - "CVT"
+
+              - label: "Carburant"
+                name: "fuel"
+                widget: "select"
+                options:
+                  - "Essence"
+                  - "Hybride"
+                  - "Électrique"
+                  - "Diesel"
+
+              - label: "VIN"
+                name: "vin"
+                widget: "string"
+                required: false
+
+              - label: "Statut"
+                name: "status"
+                widget: "select"
+                options:
+                  - "Disponible"
+                  - "Vendu"
+                  - "Réservé"
+                default: "Disponible"
+
+              - label: "Afficher en vedette"
+                name: "featured"
+                widget: "boolean"
+                default: false
+                required: false
+
+              - label: "Photos"
                 name: "images"
                 widget: "list"
+                summary: "{{fields.image}}"
+                hint: "La première photo dans la liste sera la photo principale du véhicule."
                 field:
-                  label: "Image"
+                  label: "Photo"
                   name: "image"
-                  widget: "string"
-              - { label: "Carfax", name: "carfax", widget: "string", required: false }
-              - { label: "Description FR", name: "description_fr", widget: "text", required: false }
-              - { label: "Description EN", name: "description_en", widget: "text", required: false }
+                  widget: "image"
+
+              - label: "Lien Carfax"
+                name: "carfax"
+                widget: "string"
+                required: false
+                hint: "Collez le lien Carfax ici si disponible."
+
+              - label: "Description FR"
+                name: "description_fr"
+                widget: "text"
+                required: false
+
+              - label: "Description EN"
+                name: "description_en"
+                widget: "text"
+                required: false
