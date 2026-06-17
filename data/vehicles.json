@@ -2,26 +2,6 @@
   "vehicles": [
     {
       "transmission": "Automatique",
-      "brand": "Honda",
-      "price": 18995,
-      "carfax": "",
-      "model": "Accord Touring",
-      "mileage": 128000,
-      "description_en": "Clean pre-owned vehicle.",
-      "featured": true,
-      "description_fr": "Véhicule d'occasion propre.",
-      "status": "Disponible",
-      "fuel": "Essence",
-      "title": "Honda Accord Touring",
-      "images": [
-        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
-      ],
-      "vin": "1HGCV1F90JA000000",
-      "id": "honda-accord-2018",
-      "year": 2018
-    },
-    {
-      "transmission": "Automatique",
       "brand": "Mazda",
       "price": 13995,
       "carfax": "",
