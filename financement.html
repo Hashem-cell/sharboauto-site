@@ -1,1 +1,71 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Financement | Sharbo Auto</title><meta name="description" content="Sharbo Auto - Véhicules d'occasion, financement 1re, 2e et 3e chance au Québec."><link rel="stylesheet" href="assets/css/style.css"></head><body><div class="topbar"><div class="container"><span>438-927-7272</span><span>44-196 Rue St-Jacques, Napierville, QC</span><span>hashem@sharboauto.com</span></div></div><header><div class="container nav"><a class="brand" href="index.html"><img src="assets/images/logo.jpeg" alt="Sharbo Auto"><span>SHARBO AUTO</span></a><nav class="menu"><a href="index.html">Accueil</a><a href="inventaire.html" data-t="inventory">Inventaire</a><a href="financement.html" data-t="financing">Financement</a><a href="about.html" data-t="about">À propos</a><a href="contact.html" data-t="contact">Contact</a><button class="lang" onclick="toggleLang()">FR / EN</button></nav></div></header><section class="section gray"><div class="container"><div class="title"><h1>Demande de financement</h1><p>Financement 1re, 2e et 3e chance au crédit.</p></div><div class="about"><div class="card"><h2>Obtenez une réponse rapidement</h2><p>Tous les dossiers sont considérés avec professionnalisme.</p><ul><li>1re chance</li><li>2e chance</li><li>3e chance</li><li>Nouveaux arrivants</li></ul></div><form class="card" action="mailto:hashem@sharboauto.com" method="post" enctype="text/plain"><input name="Nom" placeholder="Nom complet" required><input name="Téléphone" placeholder="Téléphone" required><input name="Courriel" type="email" placeholder="Courriel"><input name="Revenu" placeholder="Revenu mensuel"><input name="Emploi" placeholder="Emploi"><textarea name="Message" placeholder="Message"></textarea><button class="btn" type="submit">Envoyer la demande</button></form></div></div></section><footer><div class="container footer-grid"><div><h3>Sharbo Auto</h3><p>Véhicules d'occasion de qualité au Québec.</p></div><div><h4>Contact</h4><p><a href="tel:4389277272">438-927-7272</a><br><a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a></p></div><div><h4>Suivez-nous</h4><a href="https://www.instagram.com/sharbo_auto" target="_blank">Instagram</a></div></div></footer><script src="assets/js/main.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financement | Sharbo Auto</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/index.html" class="logo">
+        <img src="/assets/images/logo.jpeg" alt="Sharbo Auto">
+        <strong>SHARBO AUTO</strong>
+      </a>
+      <nav>
+        <a href="/index.html">Accueil</a>
+        <a href="/inventaire.html">Inventaire</a>
+        <a href="/financement.html">Financement</a>
+        <a href="/about.html">À propos</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <h1>Demande de financement</h1>
+
+    <div class="grid two">
+      <div class="card">
+        <h2>Obtenez une réponse rapidement</h2>
+        <p>Tous les dossiers sont considérés avec professionnalisme.</p>
+        <ul>
+          <li>1re chance</li>
+          <li>2e chance</li>
+          <li>3e chance</li>
+          <li>Nouveaux arrivants</li>
+        </ul>
+      </div>
+
+      <form class="card" name="financement" method="POST" data-netlify="true" action="/merci.html">
+        <input type="hidden" name="form-name" value="financement">
+
+        <input type="text" name="nom" placeholder="Nom complet" required>
+        <input type="tel" name="telephone" placeholder="Téléphone" required>
+        <input type="email" name="email" placeholder="Courriel" required>
+        <input type="number" name="revenu" placeholder="Revenu mensuel approximatif">
+        <input type="text" name="emploi" placeholder="Employeur / Source de revenu">
+        <textarea name="message" placeholder="Message ou détails supplémentaires"></textarea>
+
+        <button type="submit" class="btn">Envoyer la demande</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h3>Sharbo Auto</h3>
+        <p>Véhicules d'occasion de qualité au Québec.</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p>438-927-7272</p>
+        <p>hashem@sharboauto.com</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
