@@ -2,23 +2,174 @@
   "vehicles": [
     {
       "transmission": "Automatique",
-      "brand": "Mazda",
-      "price": 13995,
-      "carfax": "",
-      "model": "3 Touring",
-      "mileage": 118000,
-      "description_en": "Reliable compact car.",
-      "featured": true,
-      "description_fr": "Compacte fiable.",
+      "brand": "TOYOTA",
+      "price": 15499,
+      "model": "CAMRY L",
+      "mileage": 152399,
+      "featured": false,
       "status": "Vendu",
       "fuel": "Essence",
-      "title": "Mazda 3 Touring",
+      "title": "TOYOTA CAMRY L 2018",
       "images": [
-        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80"
+        "/assets/images/uploads/754cb42c-0fac-4041-8ad4-05e15a73ca17.png"
       ],
-      "vin": "JM1BN1V70J0000000",
-      "id": "mazda-3-2018",
+      "vin": "4T1B11HKXJU653930",
+      "id": "TOYOTA CAMRY L 2018",
       "year": 2018
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "NISSAN",
+      "price": 13750,
+      "model": "ROGUE S",
+      "mileage": 119334,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "NISSAN ROGUE S 2020",
+      "images": [
+        "/assets/images/uploads/aa7523ee-f623-40d0-93a7-c9c0cec7f3ea.png"
+      ],
+      "vin": "5N1AT2MV8LC790479",
+      "id": "NISSAN ROGUE S 2020",
+      "year": 2020
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "MAZDA",
+      "price": 8499,
+      "model": "3 SPORT",
+      "mileage": 139573,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "MAZDA 3 2015",
+      "images": [
+        "/assets/images/uploads/942cde77-12d3-400c-bef3-60c7ff4f613b.png"
+      ],
+      "vin": "3MZBM1K7XFM181432",
+      "id": "MAZDA 3 2015",
+      "year": 2015
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "HONDA",
+      "price": 14999,
+      "model": "ACCORD TOURING ",
+      "mileage": 117262,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "HONDA ACCORD TOURING 2016",
+      "images": [
+        "/assets/images/uploads/b7055617-2a21-46f6-9d1f-152c7d08f071.png"
+      ],
+      "vin": "1HGCR2F08GA807085",
+      "id": "HONDA ACCORD TOURING 2016",
+      "year": 2016
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "MAZDA",
+      "price": 9999,
+      "model": "3 TOURING",
+      "mileage": 147654,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "MAZDA 3 TOURING 2015",
+      "images": [
+        "/assets/images/uploads/44fa64a8-ec4a-4d6d-a437-5702fdc5e6bf.png"
+      ],
+      "vin": "3MZBM1L73FM128389",
+      "id": "MAZDA 3 TOURING 2015",
+      "year": 2015
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "HONDA",
+      "price": 10499,
+      "model": "CIVIC LX",
+      "mileage": 129948,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "HONDA CIVIC LX 2014",
+      "images": [
+        "/assets/images/uploads/f8f0bb2c-062e-449f-ae36-1098e5dae418.png"
+      ],
+      "vin": "2HGFB2F49EH022402",
+      "id": "HONDA CIVIC LX 2014",
+      "year": 2014
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "KIA",
+      "price": 9499,
+      "model": "FORTE LX ",
+      "mileage": 111866,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "KIA FORTE LX 2018",
+      "images": [
+        "/assets/images/uploads/11f94c39-e576-4ad0-aaa0-ff1160d36c65.png"
+      ],
+      "vin": "3KPFL4A79JE191995",
+      "id": "KIA FORTE LX 2018",
+      "year": 2018
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "JEEP",
+      "price": 19999,
+      "model": "WRANGLER UNLIMITED",
+      "mileage": 103916,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "JEEP WRANGLER UNLIMITED 2016",
+      "images": [
+        "/assets/images/uploads/dc457c14-8558-46ac-a51e-20136e2ab332.png"
+      ],
+      "vin": "1C4BJWEG3GL277636",
+      "id": "JEEP WRANGLER UNLIMITED 2016",
+      "year": 2016
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "INFINITI",
+      "price": 11499,
+      "model": "Q50 BASE",
+      "mileage": 121276,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "INFINITI Q50 BASE 2016 ",
+      "images": [
+        "/assets/images/uploads/068bdfd4-1b16-4b81-bb94-649035d3dac0-1-.png"
+      ],
+      "vin": "JN1CV7ARXGM251294",
+      "id": "INFINITI Q50 BASE 2016 ",
+      "year": 2016
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "HONDA",
+      "price": 14999,
+      "carfax": "https://vhr.carfax.ca/?id=R+i+RAmE5rIjvEDPBRBYj7J+iMDyD6MK",
+      "model": "HONDA CIVIC EX ",
+      "mileage": 95354,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "HONDA CIVIC EX 2016 ",
+      "images": [
+        "/assets/images/uploads/4c5d5810-9645-49f4-ac74-e527b7508290.png"
+      ],
+      "vin": "2HGFC2F72GH035762",
+      "id": "HONDA CIVIC EX 2016 ",
+      "year": 2016
     },
     {
       "transmission": "Automatique",
@@ -45,6 +196,89 @@
       "vin": "1HGCR2F8XGA806056 ",
       "id": "HONDA ACCORD EX-L 2016",
       "year": 2016
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "TOYOTA",
+      "price": 20499,
+      "carfax": "https://vhr.carfax.ca/?id=GOPx80F2%2FJk95Mm8MeYsMKaDZEyOvToP",
+      "model": "COROLLA SE",
+      "mileage": 99824,
+      "featured": true,
+      "description_fr": "TOYOTA COROLLA SE 2020\n99,999km\nFINANCEMENT 1, 2, 3e chances crédit \n\n- plusieurs modes de conduite\n- commande au volant\n- banc chauffant \n- palette au volant \n- tapis hiver\n- commande vocale\n- volant chauffant\n- cruise control adaptatif \n- grand écran tactile \n- ET PLUS ENCORE\n\nn’hésitez pas, pour plus d’informations contactez nous au\n438-927-7272",
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "TOYOTA COROLLA SE 2020",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.57-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.57-pm-2-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.57-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.57-pm-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.58-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.58-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.58-pm-2-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.59-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.58-pm-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-12.55.59-pm-1-.jpeg"
+      ],
+      "vin": "5YFB4RBE4LP049805",
+      "id": "TOYOTA COROLLA SE 2020",
+      "year": 2020
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "NISSAN",
+      "price": 12999,
+      "carfax": "https://vhr.carfax.ca/?id=447nMeaUaVUhg9PfKv8OC1JM16PZXWv+",
+      "model": "ROGUE SL",
+      "mileage": 137500,
+      "featured": true,
+      "description_fr": "NISSAN ROGUE SL AWD 2018\nKilométrage : 138 000 km\nTransmission : All-Wheel Drive (AWD)\nToit panoramique\nCaméra de recul\nBancs en cuir\nBancs chauffants\nVolant chauffant\nSystème de divertissement \nBluetooth\nDémarreur à distance\nEt encore plus\nFinancement disponible\n1er , 2e, 3e chance au crédit\nPour plus d’informations, n’hésitez pas à nous contacter",
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "NISSAN ROGUE SL 2018",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.48-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.48-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.49-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.49-pm-2-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.49-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.49-pm-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.49-pm-4-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.49-pm-5-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.17.50-pm-2-.jpeg"
+      ],
+      "vin": "5N1AT2MV0JC778713",
+      "id": "NISSAN ROGUE SL 2018",
+      "year": 2018
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "FORD",
+      "price": 22499,
+      "carfax": "https://vhr.carfax.ca/?id=%2FceQFh8%2F4Bzlk0n6RAvkR%2FYS8QNfY6UM",
+      "model": "F150 SUPERCREW ",
+      "mileage": 68000,
+      "featured": true,
+      "description_fr": "Ford F-150 SuperCrew 2019 AWD\n68 000 KM\n\n4x4 3.5L\n\nMoteur puissant EcoBoost\n\nCabine SuperCrew spacieuse\n\nJantes en alliage\n\nCaméra de recul\n\nGroupe électrique\n\nAir climatisé\n\nCommandes au volant\n\nRégulateur de vitesse\n\nReconstruit Très propre intérieur / extérieur\n\nTOUS NOS VEHICULES SONT DEJA INSPECTES, VERIFIEE, et REPARES POUR VOTRE TRANQUILITE D'ESPRIT\nPOUR PLUS DES QUESTIONS N’HÉSITEZ PAS DE COMMUNIQUÉ AVEC NOUS  ",
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "FORD F150 SUPERCREW 2019",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm-2-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm-4-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm-5-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm-6-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm-8-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.28-pm-7-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-17-at-1.26.29-pm.jpeg"
+      ],
+      "vin": "1FTEW1EBXKFC59390",
+      "id": "FORD F150 SUPERCREW 2019",
+      "year": 2019
     }
   ]
 }
