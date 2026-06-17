@@ -10,7 +10,6 @@ display_url: https://sharboauto.com
 logo_url: /assets/images/logo.jpeg
 
 collections:
-  collections:
   - name: "data"
     label: "Inventaire"
     files:
