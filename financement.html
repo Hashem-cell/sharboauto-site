@@ -1,71 +1,144 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Financement | Sharbo Auto</title>
-  <link rel="stylesheet" href="/assets/css/style.css" />
+  <meta name="description" content="Demande de financement automobile chez Sharbo Auto.">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
 
-<header style="padding:16px 40px;background:white;border-bottom:1px solid #eee;">
-  <div style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:auto;">
-    <a href="/index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#111;">
-      <img src="/assets/images/logo.png" alt="Sharbo Auto" style="width:70px;height:auto;">
-      <strong>SHARBO AUTO</strong>
+<body>
+<div class="topbar">
+  <div class="container">
+    <span>438-927-7272</span>
+    <span>44-196 Rue St-Jacques, Napierville, QC</span>
+    <span>hashem@sharboauto.com</span>
+  </div>
+</div>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <img src="assets/images/logo.png" alt="Sharbo Auto">
+      <span>SHARBO AUTO</span>
     </a>
-    <nav style="display:flex;gap:22px;align-items:center;">
-      <a href="/index.html">Accueil</a>
-      <a href="/inventaire.html">Inventaire</a>
-      <a href="/financement.html">Financement</a>
-      <a href="/about.html">À propos</a>
-      <a href="/contact.html">Contact</a>
+    <nav class="menu">
+      <a href="index.html">Accueil</a>
+      <a href="inventaire.html">Inventaire</a>
+      <a href="financement.html">Financement</a>
+      <a href="about.html">À propos</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
 
-<main style="padding:60px 20px;background:#f7f7f7;min-height:75vh;">
-  <section style="max-width:1100px;margin:auto;">
-    <h1 style="text-align:center;margin-bottom:10px;">Demande de financement</h1>
-    <p style="text-align:center;margin-bottom:40px;">Remplissez le formulaire et nous vous contacterons rapidement.</p>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px;">
-      <div style="background:white;padding:30px;border-radius:16px;box-shadow:0 8px 25px rgba(0,0,0,0.08);">
-        <h2>Obtenez une réponse rapidement</h2>
-        <p>Tous les dossiers sont considérés avec professionnalisme.</p>
-        <ul>
-          <li>1re chance</li>
-          <li>2e chance</li>
-          <li>3e chance</li>
-          <li>Nouveaux arrivants</li>
-        </ul>
-      </div>
-
-      <form name="financement" method="POST" data-netlify="true" action="/financement"
-        style="background:white;padding:30px;border-radius:16px;box-shadow:0 8px 25px rgba(0,0,0,0.08);display:flex;flex-direction:column;gap:14px;">
-        
-        <input type="hidden" name="form-name" value="financement">
-
-        <input name="nom" required placeholder="Nom complet" style="padding:14px;border:1px solid #ddd;border-radius:8px;">
-        <input name="telephone" required placeholder="Téléphone" style="padding:14px;border:1px solid #ddd;border-radius:8px;">
-        <input name="email" type="email" required placeholder="Courriel" style="padding:14px;border:1px solid #ddd;border-radius:8px;">
-        <input name="revenu" placeholder="Revenu mensuel approximatif" style="padding:14px;border:1px solid #ddd;border-radius:8px;">
-        <input name="emploi" placeholder="Employeur / Source de revenu" style="padding:14px;border:1px solid #ddd;border-radius:8px;">
-        <textarea name="message" rows="5" placeholder="Message ou détails supplémentaires" style="padding:14px;border:1px solid #ddd;border-radius:8px;"></textarea>
-
-        <button type="submit" style="background:#d71920;color:white;border:none;padding:15px;border-radius:8px;font-weight:bold;cursor:pointer;">
-          Envoyer la demande
-        </button>
-      </form>
+<section class="section gray">
+  <div class="container">
+    <div class="title">
+      <h1>Demande de financement</h1>
+      <p>Approbation rapide — 1re, 2e et 3e chance au crédit.</p>
     </div>
-  </section>
-</main>
 
-<footer style="padding:30px;background:#111;color:white;text-align:center;">
-  <strong>Sharbo Auto</strong>
-  <p>Véhicules d'occasion de qualité au Québec.</p>
-  <p>438-927-7272 | hashem@sharboauto.com</p>
+    <form id="financeForm" name="financement" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="card" style="max-width:900px;margin:auto;">
+      <input type="hidden" name="form-name" value="financement">
+      <p style="display:none"><label>Ne pas remplir: <input name="bot-field"></label></p>
+
+      <h3>Informations personnelles</h3>
+      <input name="prenom" placeholder="Prénom" required>
+      <input name="nom" placeholder="Nom" required>
+      <input name="date_naissance" type="date" required>
+      <input name="telephone" placeholder="Téléphone" required>
+      <input name="email" type="email" placeholder="Courriel" required>
+
+      <h3>Adresse</h3>
+      <input name="adresse" placeholder="Adresse complète" required>
+      <input name="ville" placeholder="Ville" required>
+      <input name="province" placeholder="Province" value="Québec">
+      <input name="code_postal" placeholder="Code postal">
+
+      <select name="habitation" required>
+        <option value="">Statut d’habitation</option>
+        <option>Locataire</option>
+        <option>Propriétaire</option>
+        <option>Avec famille</option>
+      </select>
+
+      <input name="paiement_logement" placeholder="Paiement mensuel logement">
+      <input name="temps_adresse" placeholder="Depuis combien de temps à cette adresse?">
+
+      <h3>Emploi et revenu</h3>
+      <input name="employeur" placeholder="Employeur / Source de revenu" required>
+      <input name="poste" placeholder="Poste / Profession">
+      <input name="revenu_mensuel" placeholder="Revenu mensuel approximatif" required>
+      <input name="temps_emploi" placeholder="Depuis combien de temps en emploi?">
+
+      <h3>Financement demandé</h3>
+      <input name="vehicule_souhaite" placeholder="Véhicule désiré">
+      <input name="budget" placeholder="Budget / paiement souhaité">
+      <input name="acompte" placeholder="Acompte disponible">
+      <select name="permis" required>
+        <option value="">Permis de conduire valide?</option>
+        <option>Oui</option>
+        <option>Non</option>
+      </select>
+
+      <select name="credit" required>
+        <option value="">Situation de crédit</option>
+        <option>Excellent</option>
+        <option>Bon</option>
+        <option>Moyen</option>
+        <option>Difficile</option>
+        <option>Faillite / Proposition</option>
+        <option>Aucun crédit / Nouvel arrivant</option>
+      </select>
+
+      <textarea name="message" rows="5" placeholder="Message ou détails supplémentaires"></textarea>
+
+      <label style="display:flex;gap:10px;align-items:flex-start;margin:15px 0;">
+        <input type="checkbox" name="consentement" required>
+        <span>J’autorise Sharbo Auto à me contacter concernant ma demande de financement.</span>
+      </label>
+
+      <button class="btn" type="submit" style="width:100%;">Envoyer la demande</button>
+
+      <p id="successMsg" style="display:none;color:green;font-weight:bold;margin-top:15px;">
+        Votre demande a été envoyée avec succès. Nous vous contacterons rapidement.
+      </p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <h3>Sharbo Auto</h3>
+      <p>Véhicules d'occasion de qualité au Québec.</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p><a href="tel:4389277272">438-927-7272</a><br>
+      <a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a></p>
+    </div>
+  </div>
 </footer>
 
+<script>
+document.getElementById("financeForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+
+  await fetch("/", {
+    method: "POST",
+    body: data
+  });
+
+  form.reset();
+  document.getElementById("successMsg").style.display = "block";
+});
+</script>
+
+<script src="assets/js/main.js"></script>
 </body>
 </html>
