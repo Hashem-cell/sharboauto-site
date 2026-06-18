@@ -1,142 +1,214 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Financement | Sharbo Auto</title>
-  <meta name="description" content="Demande de financement automobile chez Sharbo Auto.">
-  <link rel="stylesheet" href="assets/css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Financement | Sharbo Auto</title>
+<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+.finance-wrap{max-width:900px;margin:auto;background:#fff;border-radius:18px;padding:30px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.steps{display:flex;gap:8px;margin-bottom:25px}
+.step-dot{flex:1;height:8px;background:#ddd;border-radius:20px}
+.step-dot.active{background:#c8102e}
+.form-step{display:none}
+.form-step.active{display:block}
+.finance-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.finance-wrap input,.finance-wrap select,.finance-wrap textarea{width:100%;padding:14px;border:1px solid #ddd;border-radius:10px}
+.actions{display:flex;justify-content:space-between;gap:12px;margin-top:25px}
+.btn.secondary{background:#111}
+.success{display:none;color:green;font-weight:bold;margin-top:15px}
+@media(max-width:700px){.finance-grid{grid-template-columns:1fr}.actions{flex-direction:column}}
+</style>
 </head>
 
 <body>
-<div class="topbar">
-  <div class="container">
-    <span>438-927-7272</span>
-    <span>44-196 Rue St-Jacques, Napierville, QC</span>
-    <span>hashem@sharboauto.com</span>
-  </div>
-</div>
+<div class="topbar"><div class="container"><span>438-927-7272</span><span>44-196 Rue St-Jacques, Napierville, QC</span><span>hashem@sharboauto.com</span></div></div>
 
 <header>
-  <div class="container nav">
-    <a class="brand" href="index.html">
-      <img src="assets/images/logo.png" alt="Sharbo Auto">
-      <span>SHARBO AUTO</span>
-    </a>
-    <nav class="menu">
-      <a href="index.html">Accueil</a>
-      <a href="inventaire.html">Inventaire</a>
-      <a href="financement.html">Financement</a>
-      <a href="about.html">À propos</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </div>
+<div class="container nav">
+<a class="brand" href="index.html"><img src="assets/images/logo.png" alt="Sharbo Auto"><span>SHARBO AUTO</span></a>
+<nav class="menu">
+<a href="index.html">Accueil</a>
+<a href="inventaire.html">Inventaire</a>
+<a href="financement.html">Financement</a>
+<a href="about.html">À propos</a>
+<a href="contact.html">Contact</a>
+</nav>
+</div>
 </header>
 
 <section class="section gray">
-  <div class="container">
-    <div class="title">
-      <h1>Demande de financement</h1>
-      <p>Approbation rapide — 1re, 2e et 3e chance au crédit.</p>
-    </div>
+<div class="container">
+<div class="title">
+<h1>Demande de financement</h1>
+<p>Remplissez votre demande en quelques étapes simples.</p>
+</div>
 
-    <form id="financeForm" name="financement" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="card" style="max-width:900px;margin:auto;">
-      <input type="hidden" name="form-name" value="financement">
-      <p style="display:none"><label>Ne pas remplir: <input name="bot-field"></label></p>
+<form id="financeForm" name="financement" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="finance-wrap">
+<input type="hidden" name="form-name" value="financement">
+<p style="display:none"><label>Ne pas remplir: <input name="bot-field"></label></p>
 
-      <h3>Informations personnelles</h3>
-      <input name="prenom" placeholder="Prénom" required>
-      <input name="nom" placeholder="Nom" required>
-      <input name="date_naissance" type="date" required>
-      <input name="telephone" placeholder="Téléphone" required>
-      <input name="email" type="email" placeholder="Courriel" required>
+<div class="steps">
+<div class="step-dot active"></div>
+<div class="step-dot"></div>
+<div class="step-dot"></div>
+<div class="step-dot"></div>
+</div>
 
-      <h3>Adresse</h3>
-      <input name="adresse" placeholder="Adresse complète" required>
-      <input name="ville" placeholder="Ville" required>
-      <input name="province" placeholder="Province" value="Québec">
-      <input name="code_postal" placeholder="Code postal">
+<div class="form-step active">
+<h3>1. Informations personnelles</h3>
+<div class="finance-grid">
+<input name="prenom" placeholder="Prénom" required>
+<input name="nom" placeholder="Nom" required>
+<input name="date_naissance" type="date" required>
+<input name="telephone" placeholder="Téléphone" required>
+<input name="email" type="email" placeholder="Courriel" required>
+<select name="etat_civil">
+<option value="">État civil</option>
+<option>Célibataire</option>
+<option>Marié(e)</option>
+<option>Conjoint(e) de fait</option>
+<option>Divorcé(e)</option>
+</select>
+</div>
+</div>
 
-      <select name="habitation" required>
-        <option value="">Statut d’habitation</option>
-        <option>Locataire</option>
-        <option>Propriétaire</option>
-        <option>Avec famille</option>
-      </select>
+<div class="form-step">
+<h3>2. Adresse et habitation</h3>
+<div class="finance-grid">
+<input name="adresse" placeholder="Adresse complète" required>
+<input name="ville" placeholder="Ville" required>
+<input name="province" placeholder="Province" value="Québec">
+<input name="code_postal" placeholder="Code postal">
+<select name="habitation" required>
+<option value="">Statut d’habitation</option>
+<option>Locataire</option>
+<option>Propriétaire</option>
+<option>Avec famille</option>
+</select>
+<input name="paiement_logement" placeholder="Paiement mensuel du logement">
+<input name="temps_adresse" placeholder="Depuis combien de temps à cette adresse?">
+</div>
+</div>
 
-      <input name="paiement_logement" placeholder="Paiement mensuel logement">
-      <input name="temps_adresse" placeholder="Depuis combien de temps à cette adresse?">
+<div class="form-step">
+<h3>3. Emploi et revenu</h3>
+<div class="finance-grid">
+<input name="employeur" placeholder="Employeur / Source de revenu" required>
+<input name="poste" placeholder="Poste / Profession">
+<input name="revenu_mensuel" placeholder="Revenu mensuel approximatif" required>
+<input name="temps_emploi" placeholder="Depuis combien de temps en emploi?">
+<select name="type_emploi">
+<option value="">Type d’emploi</option>
+<option>Temps plein</option>
+<option>Temps partiel</option>
+<option>Travailleur autonome</option>
+<option>Prestations / Pension</option>
+<option>Autre</option>
+</select>
+<input name="revenu_secondaire" placeholder="Revenu secondaire, si applicable">
+</div>
+</div>
 
-      <h3>Emploi et revenu</h3>
-      <input name="employeur" placeholder="Employeur / Source de revenu" required>
-      <input name="poste" placeholder="Poste / Profession">
-      <input name="revenu_mensuel" placeholder="Revenu mensuel approximatif" required>
-      <input name="temps_emploi" placeholder="Depuis combien de temps en emploi?">
+<div class="form-step">
+<h3>4. Financement demandé</h3>
+<div class="finance-grid">
+<input name="vehicule_souhaite" placeholder="Véhicule désiré">
+<input name="budget" placeholder="Budget / paiement souhaité">
+<input name="acompte" placeholder="Acompte disponible">
+<select name="permis" required>
+<option value="">Permis de conduire valide?</option>
+<option>Oui</option>
+<option>Non</option>
+</select>
+<select name="credit" required>
+<option value="">Situation de crédit</option>
+<option>Excellent</option>
+<option>Bon</option>
+<option>Moyen</option>
+<option>Difficile</option>
+<option>Faillite / Proposition</option>
+<option>Aucun crédit / Nouvel arrivant</option>
+</select>
+</div>
+<textarea name="message" rows="5" placeholder="Message ou détails supplémentaires" style="margin-top:14px"></textarea>
 
-      <h3>Financement demandé</h3>
-      <input name="vehicule_souhaite" placeholder="Véhicule désiré">
-      <input name="budget" placeholder="Budget / paiement souhaité">
-      <input name="acompte" placeholder="Acompte disponible">
-      <select name="permis" required>
-        <option value="">Permis de conduire valide?</option>
-        <option>Oui</option>
-        <option>Non</option>
-      </select>
+<label style="display:flex;gap:10px;align-items:flex-start;margin-top:15px">
+<input type="checkbox" name="consentement" required>
+<span>J’autorise Sharbo Auto à me contacter concernant ma demande de financement.</span>
+</label>
+</div>
 
-      <select name="credit" required>
-        <option value="">Situation de crédit</option>
-        <option>Excellent</option>
-        <option>Bon</option>
-        <option>Moyen</option>
-        <option>Difficile</option>
-        <option>Faillite / Proposition</option>
-        <option>Aucun crédit / Nouvel arrivant</option>
-      </select>
+<div class="actions">
+<button type="button" class="btn secondary" id="prevBtn" onclick="changeStep(-1)" style="display:none">Retour</button>
+<button type="button" class="btn" id="nextBtn" onclick="changeStep(1)">Suivant</button>
+<button type="submit" class="btn" id="submitBtn" style="display:none">Envoyer</button>
+</div>
 
-      <textarea name="message" rows="5" placeholder="Message ou détails supplémentaires"></textarea>
-
-      <label style="display:flex;gap:10px;align-items:flex-start;margin:15px 0;">
-        <input type="checkbox" name="consentement" required>
-        <span>J’autorise Sharbo Auto à me contacter concernant ma demande de financement.</span>
-      </label>
-
-      <button class="btn" type="submit" style="width:100%;">Envoyer la demande</button>
-
-      <p id="successMsg" style="display:none;color:green;font-weight:bold;margin-top:15px;">
-        Votre demande a été envoyée avec succès. Nous vous contacterons rapidement.
-      </p>
-    </form>
-  </div>
+<p id="successMsg" class="success">Votre demande a été envoyée avec succès. Nous vous contacterons rapidement.</p>
+</form>
+</div>
 </section>
 
 <footer>
-  <div class="container footer-grid">
-    <div>
-      <h3>Sharbo Auto</h3>
-      <p>Véhicules d'occasion de qualité au Québec.</p>
-    </div>
-    <div>
-      <h4>Contact</h4>
-      <p><a href="tel:4389277272">438-927-7272</a><br>
-      <a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a></p>
-    </div>
-  </div>
+<div class="container footer-grid">
+<div><h3>Sharbo Auto</h3><p>Véhicules d'occasion de qualité au Québec.</p></div>
+<div><h4>Contact</h4><p><a href="tel:4389277272">438-927-7272</a><br><a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a></p></div>
+</div>
 </footer>
 
 <script>
+let currentStep = 0;
+const steps = document.querySelectorAll(".form-step");
+const dots = document.querySelectorAll(".step-dot");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitBtn = document.getElementById("submitBtn");
+
+function showStep(n){
+  steps.forEach((step,i)=>step.classList.toggle("active",i===n));
+  dots.forEach((dot,i)=>dot.classList.toggle("active",i<=n));
+  prevBtn.style.display = n === 0 ? "none" : "inline-block";
+  nextBtn.style.display = n === steps.length - 1 ? "none" : "inline-block";
+  submitBtn.style.display = n === steps.length - 1 ? "inline-block" : "none";
+}
+
+function validateStep(){
+  const inputs = steps[currentStep].querySelectorAll("input,select,textarea");
+  for(const input of inputs){
+    if(!input.checkValidity()){
+      input.reportValidity();
+      return false;
+    }
+  }
+  return true;
+}
+
+function changeStep(direction){
+  if(direction === 1 && !validateStep()) return;
+  currentStep += direction;
+  if(currentStep < 0) currentStep = 0;
+  if(currentStep >= steps.length) currentStep = steps.length - 1;
+  showStep(currentStep);
+}
+
 document.getElementById("financeForm").addEventListener("submit", async function(e){
   e.preventDefault();
+  if(!validateStep()) return;
+
   const form = e.target;
   const data = new FormData(form);
 
-  await fetch("/", {
-    method: "POST",
-    body: data
-  });
+  await fetch("/", { method:"POST", body:data });
 
   form.reset();
+  currentStep = 0;
+  showStep(currentStep);
   document.getElementById("successMsg").style.display = "block";
 });
+
+showStep(currentStep);
 </script>
 
 <script src="assets/js/main.js"></script>
