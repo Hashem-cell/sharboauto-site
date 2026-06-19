@@ -209,10 +209,50 @@ async function setupVehicle() {
 
         <a class="btn" href="/financement.html">Demande de financement</a>
         <a class="btn dark" href="/contact.html">Contact</a>
+        <button class="btn" type="button" onclick="openTestDrive('${String(c.title || "").replace(/'/g, "\\'")}')">
+          Réserver un essai routier
+        </button>
         ${carfax}
       </div>
     </div>
   `;
+}
+
+function openTestDrive(vehicleName) {
+  const form = document.getElementById("testDriveForm");
+  const vehicleInput = document.getElementById("testDriveVehicle");
+
+  if (vehicleInput) vehicleInput.value = vehicleName;
+
+  if (form) {
+    form.style.display = "block";
+    form.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
+function setupTestDriveForm() {
+  const form = document.getElementById("testDriveForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const data = new FormData(form);
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        body: data
+      });
+
+      form.reset();
+
+      const success = document.getElementById("testDriveSuccess");
+      if (success) success.style.display = "block";
+    } catch (error) {
+      alert("Une erreur est survenue. Veuillez réessayer ou nous contacter directement.");
+    }
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -220,4 +260,5 @@ document.addEventListener("DOMContentLoaded", () => {
   loadFeatured();
   setupInventory();
   setupVehicle();
+  setupTestDriveForm();
 });
