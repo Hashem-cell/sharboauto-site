@@ -49,17 +49,17 @@
       </p>
 
       <h2>Réserver un essai routier</h2>
-      <p>Choisissez une date et une heure. Nous vous contacterons pour confirmer le rendez-vous.</p>
+      <p>Choisissez une date et une heure entre 9h30 et 17h00. Nous vous contacterons pour confirmer le rendez-vous.</p>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
         <input name="nom" placeholder="Nom complet" required>
         <input name="telephone" placeholder="Téléphone" required>
         <input name="email" type="email" placeholder="Courriel" required>
-        <input name="date" type="date" required>
-        <input name="heure" type="time" required>
+        <input name="date" id="testDriveDate" type="date" required>
+        <input name="heure" type="time" min="09:30" max="17:00" step="1800" required>
+        <select name="moment">
           <option>Matin</option>
           <option>Après-midi</option>
-          <option>Soir</option>
         </select>
       </div>
 
@@ -93,5 +93,31 @@
 </footer>
 
 <script src="assets/js/main.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dateInput = document.getElementById("testDriveDate");
+
+  if (dateInput) {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+
+    dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+    dateInput.addEventListener("input", function () {
+      const selectedDate = new Date(this.value + "T00:00:00");
+      const day = selectedDate.getDay();
+
+      if (day === 0 || day === 6) {
+        alert("Les essais routiers sont disponibles du lundi au vendredi seulement.");
+        this.value = "";
+      }
+    });
+  }
+});
+</script>
+
 </body>
 </html>
