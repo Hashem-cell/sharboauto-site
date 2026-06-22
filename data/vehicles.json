@@ -2,6 +2,32 @@
   "vehicles": [
     {
       "transmission": "Automatique",
+      "brand": "MASERATI",
+      "price": 30499,
+      "model": "LEVANTI S",
+      "mileage": 56000,
+      "featured": true,
+      "description_fr": "2017 Maserati Levante S AWD 424hp,  Red Premium Natural Leather, Carbon Fiber Interior Trim, Premium Package, Sport Package, Advanced Driver Assistance Package with Adaptive Cruise Control, Blind Spot Assist, Heated and Cooled Seats, Surround View Camera, Harmon Kardon Sound System, Keyless Entry, Headrests Trident Stitching, Panoramic Sunroof, Alcantara Roof Lining, 21'' Sport Package Black Wheels.",
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "MASERATI LEVANTE S 2017",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.47-pm-4-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.47-pm-2-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.47-pm-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.47-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.47-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.46-pm-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.46-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.46-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-22-at-5.54.46-pm-2-.jpeg"
+      ],
+      "vin": "ZN661YULXHX216045",
+      "id": "MASERATI LEVANTE S 2017",
+      "year": 2017
+    },
+    {
+      "transmission": "Automatique",
       "brand": "MAZDA",
       "price": 12499,
       "carfax": "https://vhr.carfax.ca/?id=G8K9nsKaEuPUKysrsdbsFhU9ZYy3aaBg",
