@@ -2,6 +2,36 @@
   "vehicles": [
     {
       "transmission": "Automatique",
+      "brand": "HYUNDAI",
+      "price": 11999,
+      "carfax": "https://vhr.carfax.ca/?id=%2FK5U1MaaEBzKGuQIbqnYCqoIsjfNOdmL",
+      "model": "SANTA FE S",
+      "mileage": 114000,
+      "featured": false,
+      "description_fr": "HYUNDAI SANTA FE 2015\n114000km 2.0L \nTout équipé\nSiège en cuir\nSiège chauffant/ ventilé\nToi panoramique\nGps\nBluetooth\nCaméra de recul\nGroupe électrique\nAir climatisé\nCommandes au volant\nRégulateur de vitesse\nKeyless\nEt encore plus..\n\nTOUS NOS VEHICULES SONT DEJA INSPECTES, VERIFIEE, et REPARES POUR VOTRE TRANQUILITE D'ESPRIT\nPOUR PLUS DES QUESTIONS N’HÉSITEZ PAS DE COMMUNIQUÉ AVEC NOUS",
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "HYUNDAI SANTA FE 2015",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.18-am.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.18-am-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.18-am-2-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.18-am-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.19-am.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.19-am-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.19-am-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.19-am-2-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.19-am-4-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.19-am-5-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.19-am-6-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-06-29-at-10.31.20-am.jpeg"
+      ],
+      "vin": "5XYZUDLA0FG283865",
+      "id": "HYUNDAI SANTA FE 2015",
+      "year": 2014
+    },
+    {
+      "transmission": "Automatique",
       "brand": "MASERATI",
       "price": 30499,
       "carfax": "https://vhr.carfax.ca/?id=Uzr+WHHN4Q0yR81+El6ulePB4CQz9mZY",
