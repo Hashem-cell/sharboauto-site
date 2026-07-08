@@ -2,32 +2,6 @@
   "vehicles": [
     {
       "transmission": "Automatique",
-      "brand": "CHEVROLET",
-      "price": 8999,
-      "model": "SPARK",
-      "mileage": 89500,
-      "featured": false,
-      "description_fr": "Moteur 1.4L 4cyl, transmission automatique à traction avant! Sièges en tissu, siège arrière rabattable, des porte-gobelets, des serrures de porte électriques, des vitres électriques, un régulateur de vitesse, un éclairage intérieur et plus encore.Bluetooth, Apple Carplay/Android Auto, la capacité radio XM, la connectivité USB et la radio AM/FM, le tout contrôlé via l'écran tactile et les commandes audio montées sur le volant et beaucoup encore plus \n\nTOUS NOS VEHICULES SONT DEJA INSPECTES, VERIFIEE, et REPARES POUR VOTRE TRANQUILITE D'ESPRIT\nPOUR PLUS DES QUESTIONS N’HÉSITEZ PAS DE COMMUNIQUÉ AVEC NOUS",
-      "status": "Disponible",
-      "fuel": "Essence",
-      "title": "CHEVROLET SPARK LT 2019",
-      "images": [
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-5-.jpeg",
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm.jpeg",
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-4-.jpeg",
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-3-.jpeg",
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-1-.jpeg",
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-2-.jpeg",
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.41-pm-1-.jpeg",
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.41-pm.jpeg",
-        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.41-pm-2-.jpeg"
-      ],
-      "vin": "KL8CD6SA2KC749225",
-      "id": "CHEVROLET SPARK LT 2019",
-      "year": 2019
-    },
-    {
-      "transmission": "Automatique",
       "brand": "HYUNDAI",
       "price": 14999,
       "carfax": "https://vhr.carfax.ca/?id=%2FK5U1MaaEBzKGuQIbqnYCqoIsjfNOdmL",
@@ -219,6 +193,32 @@
       "vin": "5N1AT2MV0JC778713",
       "id": "NISSAN ROGUE SL 2018",
       "year": 2018
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "CHEVROLET",
+      "price": 8999,
+      "model": "SPARK",
+      "mileage": 89500,
+      "featured": false,
+      "description_fr": "Moteur 1.4L 4cyl, transmission automatique à traction avant! Sièges en tissu, siège arrière rabattable, des porte-gobelets, des serrures de porte électriques, des vitres électriques, un régulateur de vitesse, un éclairage intérieur et plus encore.Bluetooth, Apple Carplay/Android Auto, la capacité radio XM, la connectivité USB et la radio AM/FM, le tout contrôlé via l'écran tactile et les commandes audio montées sur le volant et beaucoup encore plus \n\nTOUS NOS VEHICULES SONT DEJA INSPECTES, VERIFIEE, et REPARES POUR VOTRE TRANQUILITE D'ESPRIT\nPOUR PLUS DES QUESTIONS N’HÉSITEZ PAS DE COMMUNIQUÉ AVEC NOUS",
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "CHEVROLET SPARK LT 2019",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-5-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-4-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-3-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.40-pm-2-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.41-pm-1-.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.41-pm.jpeg",
+        "/assets/images/uploads/whatsapp-image-2026-07-08-at-4.44.41-pm-2-.jpeg"
+      ],
+      "vin": "KL8CD6SA2KC749225",
+      "id": "CHEVROLET SPARK LT 2019",
+      "year": 2019
     },
     {
       "transmission": "Automatique",
