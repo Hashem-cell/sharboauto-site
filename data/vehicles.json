@@ -2,6 +2,22 @@
   "vehicles": [
     {
       "transmission": "Automatique",
+      "brand": "FORD",
+      "price": 19999,
+      "carfax": "https://vhr.carfax.ca/?id=GftUMbVajtkURBf+yfKBitIUrQQr0UWX",
+      "model": "EDGE TITANIUM",
+      "mileage": 113999,
+      "featured": false,
+      "description_fr": ".",
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "FORD EDGE TITANIUM 2020 ",
+      "vin": "2FMPK4K90LBA63433",
+      "id": "FORD EDGE TITANIUM 2020 ",
+      "year": 2020
+    },
+    {
+      "transmission": "Automatique",
       "brand": "MASERATI",
       "price": 30499,
       "carfax": "https://vhr.carfax.ca/?id=Uzr+WHHN4Q0yR81+El6ulePB4CQz9mZY",
@@ -418,22 +434,6 @@
       "vin": "2HGFC2F72GH035762",
       "id": "HONDA CIVIC EX 2016 ",
       "year": 2016
-    },
-    {
-      "transmission": "Automatique",
-      "brand": "FORD",
-      "price": 19999,
-      "carfax": "https://vhr.carfax.ca/?id=GftUMbVajtkURBf+yfKBitIUrQQr0UWX",
-      "model": "EDGE TITANIUM",
-      "mileage": 113999,
-      "featured": false,
-      "description_fr": ".",
-      "status": "Disponible",
-      "fuel": "Essence",
-      "title": "FORD EDGE TITANIUM 2020 ",
-      "vin": "2FMPK4K90LBA63433",
-      "id": "FORD EDGE TITANIUM 2020 ",
-      "year": 2020
     }
   ]
 }
