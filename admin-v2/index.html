@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sharbo Auto Admin V2</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="logo" href="#dashboard"><img src="../assets/images/logo.png" alt="Sharbo Auto"><span>SHARBO AUTO</span></a>
+    <nav>
+      <button class="nav-link active" data-page="dashboard">▦ <span>Tableau de bord</span></button>
+      <button class="nav-link" data-page="inventory">🚗 <span>Inventaire</span></button>
+      <button class="nav-link" data-page="calculator">🧮 <span>Calculateur</span></button>
+      <button class="nav-link" data-page="leads">👥 <span>Demandes</span></button>
+      <button class="nav-link" data-page="settings">⚙ <span>Paramètres</span></button>
+    </nav>
+    <a class="legacy" href="../admin/">Ouvrir l'ancien admin</a>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <button id="menuToggle" class="menu-toggle">☰</button>
+      <input id="globalSearch" class="search" placeholder="Rechercher un véhicule…">
+      <div class="top-actions"><span class="status-dot"></span> Version test sécurisée</div>
+    </header>
+
+    <section id="page-dashboard" class="page active">
+      <div class="page-head"><div><h1>Tableau de bord</h1><p>Vue rapide de Sharbo Auto</p></div><a class="primary" href="../admin/#/collections/vehicles">+ Ajouter un véhicule</a></div>
+      <div class="stats">
+        <article><span>Véhicules</span><strong id="statTotal">0</strong><small>Inventaire total</small></article>
+        <article><span>Disponibles</span><strong id="statAvailable">0</strong><small>Prêts à vendre</small></article>
+        <article><span>Vendus</span><strong id="statSold">0</strong><small>Statut vendu</small></article>
+        <article><span>Valeur affichée</span><strong id="statValue">0 $</strong><small>Total des prix</small></article>
+      </div>
+      <div class="grid-2">
+        <article class="panel"><div class="panel-title"><h2>Inventaire récent</h2><button data-go="inventory">Voir tout</button></div><div id="recentVehicles" class="vehicle-list"></div></article>
+        <article class="panel"><div class="panel-title"><h2>Répartition</h2></div><div id="statusBars" class="bars"></div></article>
+      </div>
+    </section>
+
+    <section id="page-inventory" class="page">
+      <div class="page-head"><div><h1>Inventaire</h1><p>Les véhicules actuellement publiés sur le site</p></div><a class="primary" href="../admin/#/collections/vehicles">Gérer dans l'admin</a></div>
+      <div class="toolbar"><input id="inventorySearch" placeholder="Marque, modèle, année ou VIN"><select id="statusFilter"><option value="">Tous les statuts</option><option>Disponible</option><option>Réservé</option><option>Vendu</option></select></div>
+      <div class="table-wrap"><table><thead><tr><th>Véhicule</th><th>Année</th><th>Kilométrage</th><th>Prix</th><th>Statut</th><th></th></tr></thead><tbody id="inventoryBody"></tbody></table></div>
+    </section>
+
+    <section id="page-calculator" class="page">
+      <div class="page-head"><div><h1>Calculateur automobile</h1><p>Estimation de financement avec taxes du Québec</p></div><button class="primary" onclick="window.print()">Imprimer</button></div>
+      <div class="calculator-tabs"><button class="active">Calculateur de financement</button><button disabled>Location — prochaine étape</button></div>
+      <div class="calc-layout">
+        <form id="financeCalculator" class="panel form-grid">
+          <label>Prix du véhicule<input name="vehiclePrice" type="number" min="0" step="0.01" value="15000"></label>
+          <label>Valeur du véhicule d'échange<input name="tradeValue" type="number" min="0" step="0.01" value="0"></label>
+          <label>Solde du prêt sur l'échange<input name="tradeBalance" type="number" min="0" step="0.01" value="0"></label>
+          <label>Frais de gestion<input name="managementFee" type="number" min="0" step="0.01" value="0"></label>
+          <label>Garantie<input name="warranty" type="number" min="0" step="0.01" value="0"></label>
+          <label>RDRPM<input name="rdrpm" type="number" min="0" step="0.01" value="0"></label>
+          <label>Transit / immatriculation<input name="transit" type="number" min="0" step="0.01" value="0"></label>
+          <label>Mise de fonds<input name="downPayment" type="number" min="0" step="0.01" value="0"></label>
+          <label>Taux d'intérêt annuel (%)<input name="interestRate" type="number" min="0" step="0.01" value="9.99"></label>
+          <label>Durée du prêt (mois)<select name="term"><option>12</option><option>24</option><option>36</option><option>48</option><option>60</option><option selected>72</option><option>84</option><option>96</option></select></label>
+          <label>Fréquence des paiements<select name="frequency"><option value="52">Hebdomadaire</option><option value="26">Aux deux semaines</option><option value="24">Deux fois par mois</option><option value="12">Mensuelle</option></select></label>
+          <label class="switch-row"><span>Inclure TPS et TVQ</span><input name="includeTaxes" type="checkbox" checked></label>
+        </form>
+        <article class="panel results">
+          <h2>Résultat estimatif</h2>
+          <div><span>Paiement</span><strong id="paymentResult">0,00 $</strong></div>
+          <div><span>Montant financé</span><strong id="loanResult">0,00 $</strong></div>
+          <div><span>Intérêts totaux</span><strong id="interestResult">0,00 $</strong></div>
+          <div><span>Coût total</span><strong id="costResult">0,00 $</strong></div>
+          <hr>
+          <small>Estimation seulement. Le taux réel et les conditions doivent être confirmés par le prêteur.</small>
+        </article>
+      </div>
+    </section>
+
+    <section id="page-leads" class="page"><div class="page-head"><div><h1>Demandes</h1><p>Financement et essais routiers</p></div></div><article class="panel empty"><h2>Connexion Netlify à venir</h2><p>Les formulaires existants continuent de fonctionner normalement. La prochaine étape affichera ici les demandes reçues sans toucher au site public.</p></article></section>
+
+    <section id="page-settings" class="page"><div class="page-head"><div><h1>Paramètres</h1><p>Coordonnées de l'entreprise</p></div></div><form id="settingsForm" class="panel settings-form"><label>Téléphone<input name="phone" value="438-927-7272"></label><label>Courriel<input name="email" value="hashem@sharboauto.com"></label><label>Adresse<input name="address" value="2260 Boulevard des Laurentides, Laval, QC H7M 2Y7"></label><label>Instagram<input name="instagram" value="https://www.instagram.com/sharbo_auto"></label><div class="days"><h3>Heures d'ouverture</h3><label>Lundi au vendredi<input name="weekdayHours" value="09:30 – 17:00"></label><label>Samedi<input name="saturdayHours" value="Fermé"></label><label>Dimanche<input name="sundayHours" value="Fermé"></label></div><button class="primary" type="submit">Enregistrer localement</button><p id="settingsSaved" class="saved"></p></form></section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>
