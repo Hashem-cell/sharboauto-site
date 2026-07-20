@@ -44,11 +44,36 @@ function toggleLang() {
 
 async function getCars() {
   try {
-    const data = await fetch("/data/vehicles.json", { cache: "no-store" }).then(r => r.json());
-    return data.vehicles || [];
+    if (window.supabase && window.SHARBO_SUPABASE_URL && window.SHARBO_SUPABASE_KEY) {
+      const client = window.supabase.createClient(window.SHARBO_SUPABASE_URL, window.SHARBO_SUPABASE_KEY);
+      const { data, error } = await client
+        .from("vehicles")
+        .select("*, vehicle_images(*)")
+        .order("created_at", { ascending: false });
+
+      if (!error && data && data.length) {
+        return data.map(v => ({
+          ...v,
+          id: v.id,
+          brand: v.make,
+          title: v.title || [v.make, v.model, v.year].filter(Boolean).join(" "),
+          images: (v.vehicle_images || [])
+            .sort((a, b) => Number(a.sort_order || 0) - Number(b.sort_order || 0))
+            .map(i => i.image_url)
+        }));
+      }
+    }
+
+    const local = await fetch("/data/vehicles.json", { cache: "no-store" }).then(r => r.json());
+    return local.vehicles || [];
   } catch (e) {
     console.error(e);
-    return [];
+    try {
+      const local = await fetch("/data/vehicles.json", { cache: "no-store" }).then(r => r.json());
+      return local.vehicles || [];
+    } catch (_) {
+      return [];
+    }
   }
 }
 
