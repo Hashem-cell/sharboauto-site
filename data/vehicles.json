@@ -345,57 +345,6 @@
     },
     {
       "transmission": "Automatique",
-      "brand": "TOYOTA",
-      "price": 15499,
-      "model": "CAMRY L",
-      "mileage": 152399,
-      "featured": false,
-      "status": "Vendu",
-      "fuel": "Essence",
-      "title": "TOYOTA CAMRY L 2018",
-      "images": [
-        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.29-pm.jpeg"
-      ],
-      "vin": "4T1B11HKXJU653930",
-      "id": "TOYOTA CAMRY L 2018",
-      "year": 2018
-    },
-    {
-      "transmission": "Automatique",
-      "brand": "NISSAN",
-      "price": 13750,
-      "model": "ROGUE S",
-      "mileage": 119334,
-      "featured": false,
-      "status": "Disponible",
-      "fuel": "Essence",
-      "title": "NISSAN ROGUE S 2020",
-      "images": [
-        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.29-pm-1-.jpeg"
-      ],
-      "vin": "5N1AT2MV8LC790479",
-      "id": "NISSAN ROGUE S 2020",
-      "year": 2020
-    },
-    {
-      "transmission": "Automatique",
-      "brand": "MAZDA",
-      "price": 8499,
-      "model": "3 SPORT",
-      "mileage": 139573,
-      "featured": false,
-      "status": "Disponible",
-      "fuel": "Essence",
-      "title": "MAZDA 3 2015",
-      "images": [
-        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.29-pm-2-.jpeg"
-      ],
-      "vin": "3MZBM1K7XFM181432",
-      "id": "MAZDA 3 2015",
-      "year": 2015
-    },
-    {
-      "transmission": "Automatique",
       "brand": "HONDA",
       "price": 14999,
       "model": "ACCORD TOURING ",
@@ -410,57 +359,6 @@
       "vin": "1HGCR2F08GA807085",
       "id": "HONDA ACCORD TOURING 2016",
       "year": 2016
-    },
-    {
-      "transmission": "Automatique",
-      "brand": "MAZDA",
-      "price": 9999,
-      "model": "3 TOURING",
-      "mileage": 147654,
-      "featured": false,
-      "status": "Disponible",
-      "fuel": "Essence",
-      "title": "MAZDA 3 TOURING 2015",
-      "images": [
-        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.30-pm.jpeg"
-      ],
-      "vin": "3MZBM1L73FM128389",
-      "id": "MAZDA 3 TOURING 2015",
-      "year": 2015
-    },
-    {
-      "transmission": "Automatique",
-      "brand": "HONDA",
-      "price": 10499,
-      "model": "CIVIC LX",
-      "mileage": 129948,
-      "featured": false,
-      "status": "Disponible",
-      "fuel": "Essence",
-      "title": "HONDA CIVIC LX 2014",
-      "images": [
-        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.30-pm-3-.jpeg"
-      ],
-      "vin": "2HGFB2F49EH022402",
-      "id": "HONDA CIVIC LX 2014",
-      "year": 2014
-    },
-    {
-      "transmission": "Automatique",
-      "brand": "KIA",
-      "price": 9499,
-      "model": "FORTE LX ",
-      "mileage": 111866,
-      "featured": false,
-      "status": "Disponible",
-      "fuel": "Essence",
-      "title": "KIA FORTE LX 2018",
-      "images": [
-        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.30-pm-2-.jpeg"
-      ],
-      "vin": "3KPFL4A79JE191995",
-      "id": "KIA FORTE LX 2018",
-      "year": 2018
     },
     {
       "transmission": "Automatique",
@@ -495,6 +393,108 @@
       "vin": "JN1CV7ARXGM251294",
       "id": "INFINITI Q50 BASE 2016 ",
       "year": 2016
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "TOYOTA",
+      "price": 15499,
+      "model": "CAMRY L",
+      "mileage": 152399,
+      "featured": false,
+      "status": "Vendu",
+      "fuel": "Essence",
+      "title": "TOYOTA CAMRY L 2018",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.29-pm.jpeg"
+      ],
+      "vin": "4T1B11HKXJU653930",
+      "id": "TOYOTA CAMRY L 2018",
+      "year": 2018
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "KIA",
+      "price": 9499,
+      "model": "FORTE LX ",
+      "mileage": 111866,
+      "featured": false,
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "KIA FORTE LX 2018",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.30-pm-2-.jpeg"
+      ],
+      "vin": "3KPFL4A79JE191995",
+      "id": "KIA FORTE LX 2018",
+      "year": 2018
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "MAZDA",
+      "price": 8499,
+      "model": "3 SPORT",
+      "mileage": 139573,
+      "featured": false,
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "MAZDA 3 2015",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.29-pm-2-.jpeg"
+      ],
+      "vin": "3MZBM1K7XFM181432",
+      "id": "MAZDA 3 2015",
+      "year": 2015
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "HONDA",
+      "price": 10499,
+      "model": "CIVIC LX",
+      "mileage": 129948,
+      "featured": false,
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "HONDA CIVIC LX 2014",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.30-pm-3-.jpeg"
+      ],
+      "vin": "2HGFB2F49EH022402",
+      "id": "HONDA CIVIC LX 2014",
+      "year": 2014
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "MAZDA",
+      "price": 9999,
+      "model": "3 TOURING",
+      "mileage": 147654,
+      "featured": false,
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "MAZDA 3 TOURING 2015",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.30-pm.jpeg"
+      ],
+      "vin": "3MZBM1L73FM128389",
+      "id": "MAZDA 3 TOURING 2015",
+      "year": 2015
+    },
+    {
+      "transmission": "Automatique",
+      "brand": "NISSAN",
+      "price": 13750,
+      "model": "ROGUE S",
+      "mileage": 119334,
+      "featured": false,
+      "status": "Disponible",
+      "fuel": "Essence",
+      "title": "NISSAN ROGUE S 2020",
+      "images": [
+        "/assets/images/uploads/whatsapp-image-2026-06-16-at-1.06.29-pm-1-.jpeg"
+      ],
+      "vin": "5N1AT2MV8LC790479",
+      "id": "NISSAN ROGUE S 2020",
+      "year": 2020
     },
     {
       "transmission": "Automatique",
