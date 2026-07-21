@@ -34,7 +34,7 @@
     <div class="sales-file-tabs">
       <button type="button" class="sales-tab active" data-sales-tab="overview">Vue d’ensemble</button>
       <button type="button" class="sales-tab" data-sales-tab="payments">Paiements</button>
-      <button type="button" class="sales-tab" data-sales-tab="expenses">Coûts & profit</button>
+      <button type="button" class="sales-tab" data-sales-tab="expenses">Coûts & profit</button><button type="button" class="sales-tab" data-sales-tab="documents">Documents</button><button type="button" class="sales-tab" data-sales-tab="signatures">Signatures</button><button type="button" class="sales-tab" data-sales-tab="timeline">Timeline</button>
     </div>
     <div id="salesTabOverview" class="sales-tab-panel active">
       <div id="salesOverviewStats" class="sales-kpis"></div>
@@ -72,6 +72,27 @@
       <p id="expenseMessage" class="saved"></p>
       <div id="profitSummary" class="sales-kpis"></div>
       <div class="table-wrap"><table><thead><tr><th>Date</th><th>Catégorie</th><th>Fournisseur</th><th>Description</th><th>Montant</th><th></th></tr></thead><tbody id="expensesBody"></tbody></table></div>
+    </div>
+
+    <div id="salesTabDocuments" class="sales-tab-panel">
+      <div class="split-head"><div><h3>Centre de documents</h3><p class="muted">Carfax, permis, assurance, contrat, facture et autres pièces.</p></div></div>
+      <form id="documentForm" class="inline-entry">
+        <label>Type<select name="document_type"><option>Carfax</option><option>Permis</option><option>Assurance</option><option>Contrat</option><option>Facture</option><option>Autre</option></select></label>
+        <label class="wide">Fichier<input name="file" type="file" accept="image/*,.pdf,.doc,.docx" required></label>
+        <label class="wide">Nom affiché<input name="display_name" placeholder="Optionnel"></label>
+        <div class="entry-actions"><button class="primary" type="submit">Téléverser</button></div>
+      </form><p id="documentMessage" class="saved"></p><div id="documentsGrid" class="documents-grid"></div>
+    </div>
+    <div id="salesTabSignatures" class="sales-tab-panel">
+      <div class="split-head"><div><h3>Signatures électroniques</h3><p class="muted">Signez avec le doigt, la souris ou un stylet.</p></div><button id="finalizeContractBtn" class="primary" type="button">Finaliser le contrat</button></div>
+      <div class="signature-grid">
+        <article class="panel"><h3>Signature du client</h3><canvas id="customerSignature" class="signature-pad" width="700" height="240"></canvas><div class="entry-actions"><button type="button" data-clear-signature="customer">Effacer</button><button class="primary" type="button" data-save-signature="customer">Enregistrer</button></div><p id="customerSignatureStatus" class="muted"></p></article>
+        <article class="panel"><h3>Signature du vendeur</h3><canvas id="sellerSignature" class="signature-pad" width="700" height="240"></canvas><div class="entry-actions"><button type="button" data-clear-signature="seller">Effacer</button><button class="primary" type="button" data-save-signature="seller">Enregistrer</button></div><p id="sellerSignatureStatus" class="muted"></p></article>
+      </div><p id="signatureMessage" class="saved"></p>
+    </div>
+    <div id="salesTabTimeline" class="sales-tab-panel">
+      <div class="split-head"><div><h3>Historique du dossier</h3><p class="muted">Toutes les actions importantes sont enregistrées.</p></div><button id="exportSalesCsv" type="button">Exporter CSV</button></div>
+      <div id="timelineList" class="timeline-list"></div>
     </div>
   </div>
 </div>
