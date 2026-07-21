@@ -24,4 +24,55 @@
 <main class="builder-preview"><article id="contractDocument" class="contract-document"></article></main>
 <aside class="builder-panel builder-right"><h3>Actions</h3><button type="button" class="builder-action primary" id="printContractDocument">🖨 Imprimer / PDF</button><button type="button" class="builder-action" id="downloadContractDocument">📥 Télécharger en PDF</button><button type="button" class="builder-action" id="emailContractDocument">✉ Envoyer par courriel</button><button type="button" class="builder-action" id="markContractSigned">✍ Marquer comme signé</button><div class="builder-divider"></div><h3>Vérification</h3><div id="builderChecklist" class="builder-checklist"></div><small class="builder-help">Le téléchargement PDF ouvre la fenêtre d’impression. Choisissez « Enregistrer au format PDF ».</small></aside>
 </div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="admin.js"></script></body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<div id="salesFileModal" class="modal sales-file-modal">
+  <div class="modal-card sales-file-card">
+    <div class="modal-head">
+      <div><h2 id="salesFileModalTitle">Dossier de vente</h2><p id="salesFileSubtitle" class="muted"></p></div>
+      <button id="closeSalesFileModal" class="icon-btn" type="button">×</button>
+    </div>
+    <div class="sales-file-tabs">
+      <button type="button" class="sales-tab active" data-sales-tab="overview">Vue d’ensemble</button>
+      <button type="button" class="sales-tab" data-sales-tab="payments">Paiements</button>
+      <button type="button" class="sales-tab" data-sales-tab="expenses">Coûts & profit</button>
+    </div>
+    <div id="salesTabOverview" class="sales-tab-panel active">
+      <div id="salesOverviewStats" class="sales-kpis"></div>
+      <div class="sales-overview-grid">
+        <article class="panel"><h3>Client</h3><div id="salesCustomerCard"></div></article>
+        <article class="panel"><h3>Véhicule</h3><div id="salesVehicleCard"></div></article>
+        <article class="panel"><h3>Contrat</h3><div id="salesContractCard"></div></article>
+        <article class="panel"><h3>Actions rapides</h3><div class="sales-quick-actions"><button id="salesOpenContract" class="primary" type="button">Ouvrir le contrat</button><button id="salesAddPaymentQuick" type="button">Ajouter un paiement</button><button id="salesAddExpenseQuick" type="button">Ajouter un coût</button></div></article>
+      </div>
+    </div>
+    <div id="salesTabPayments" class="sales-tab-panel">
+      <div class="split-head"><div><h3>Centre de paiements</h3><p class="muted">Dépôts, virements, cartes et paiements finaux.</p></div><button id="showPaymentForm" class="primary" type="button">+ Ajouter un paiement</button></div>
+      <form id="paymentForm" class="inline-entry hidden">
+        <label>Type<select name="payment_type"><option>Dépôt</option><option>Mise de fonds</option><option>Paiement partiel</option><option>Paiement final</option><option>Remboursement</option></select></label>
+        <label>Méthode<select name="payment_method"><option>Comptant</option><option>Virement Interac</option><option>Carte débit</option><option>Carte crédit</option><option>Chèque</option><option>Financement</option></select></label>
+        <label>Montant<input name="amount" type="number" min="0.01" step="0.01" required></label>
+        <label>Date<input name="paid_at" type="datetime-local" required></label>
+        <label class="wide">Notes<input name="notes" placeholder="Optionnel"></label>
+        <div class="entry-actions"><button type="button" id="cancelPaymentForm">Annuler</button><button class="primary" type="submit">Enregistrer</button></div>
+      </form>
+      <p id="paymentMessage" class="saved"></p>
+      <div id="paymentSummary" class="sales-kpis"></div>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Méthode</th><th>Reçu</th><th>Montant</th><th></th></tr></thead><tbody id="paymentsBody"></tbody></table></div>
+    </div>
+    <div id="salesTabExpenses" class="sales-tab-panel">
+      <div class="split-head"><div><h3>Coûts du véhicule & profit</h3><p class="muted">Suivez le coût réel et la marge de chaque véhicule.</p></div><button id="showExpenseForm" class="primary" type="button">+ Ajouter un coût</button></div>
+      <form id="expenseForm" class="inline-entry hidden">
+        <label>Catégorie<select name="category"><option>Achat</option><option>Transport</option><option>Inspection</option><option>Pièces</option><option>Réparation</option><option>Esthétique</option><option>Immatriculation</option><option>Autre</option></select></label>
+        <label>Fournisseur<input name="supplier" placeholder="Nom du fournisseur"></label>
+        <label>Montant<input name="amount" type="number" min="0.01" step="0.01" required></label>
+        <label>Date<input name="expense_date" type="date" required></label>
+        <label class="wide">Description<input name="description" placeholder="Détails du coût"></label>
+        <div class="entry-actions"><button type="button" id="cancelExpenseForm">Annuler</button><button class="primary" type="submit">Enregistrer</button></div>
+      </form>
+      <p id="expenseMessage" class="saved"></p>
+      <div id="profitSummary" class="sales-kpis"></div>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Catégorie</th><th>Fournisseur</th><th>Description</th><th>Montant</th><th></th></tr></thead><tbody id="expensesBody"></tbody></table></div>
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script></body></html>

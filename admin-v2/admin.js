@@ -121,7 +121,7 @@ function renderSalesFiles(){
   salesFileOpen.textContent=salesFiles.filter(x=>!['Complété','Livré','Fermé'].includes(x.status)).length;
   salesFileDone.textContent=salesFiles.filter(x=>['Complété','Livré','Fermé'].includes(x.status)).length;
   salesFileBalance.textContent=money(salesFiles.reduce((sum,x)=>sum+Number(x.contracts?.balance_amount||0),0));
-  salesFilesBody.innerHTML=salesFiles.map(sf=>{const c=sf.contracts||{},u=sf.customers||{},v=sf.vehicles||{};return `<tr><td><strong>${esc(sf.file_number||'Dossier')}</strong><small class="block-muted">${new Date(sf.created_at).toLocaleDateString('fr-CA')}</small></td><td>${esc(customerName(u))}<small class="block-muted">${esc(u.phone||u.email||'')}</small></td><td><strong>${esc(v.title||[v.make,v.model,v.year].filter(Boolean).join(' ')||'—')}</strong><small class="block-muted">${esc(v.vin||'')}</small></td><td>${esc(c.contract_number||'—')}</td><td>${money(c.total_amount||c.sale_price)}</td><td>${money(c.balance_amount||0)}</td><td><span class="badge">${esc(sf.status||'En cours')}</span></td><td><button class="table-btn" onclick="openContractDocument('${c.id}')">Ouvrir le contrat</button></td></tr>`}).join('')||'<tr><td colspan="8">Aucun dossier de vente.</td></tr>';
+  salesFilesBody.innerHTML=salesFiles.map(sf=>{const c=sf.contracts||{},u=sf.customers||{},v=sf.vehicles||{};return `<tr><td><strong>${esc(sf.file_number||'Dossier')}</strong><small class="block-muted">${new Date(sf.created_at).toLocaleDateString('fr-CA')}</small></td><td>${esc(customerName(u))}<small class="block-muted">${esc(u.phone||u.email||'')}</small></td><td><strong>${esc(v.title||[v.make,v.model,v.year].filter(Boolean).join(' ')||'—')}</strong><small class="block-muted">${esc(v.vin||'')}</small></td><td>${esc(c.contract_number||'—')}</td><td>${money(c.total_amount||c.sale_price)}</td><td>${money(c.balance_amount||0)}</td><td><span class="badge">${esc(sf.status||'En cours')}</span></td><td><button class="table-btn" onclick="openSalesFile('${sf.id}')">Ouvrir le dossier</button></td></tr>`}).join('')||'<tr><td colspan="8">Aucun dossier de vente.</td></tr>';
 }
 async function repairMissingSalesFiles(){
   salesFilesMessage.textContent='Synchronisation…';
@@ -257,4 +257,67 @@ emailContractDocument.addEventListener('click',async()=>{
   }catch(err){builderSaveMessage.textContent='Envoi automatique indisponible: '+err.message+' — ouverture de votre application courriel.';setTimeout(()=>{window.location.href=`mailto:${encodeURIComponent(m.to)}?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`},900)}
   finally{emailContractDocument.disabled=false}
 });
+
+let activeSalesFileId=null;
+let activeSalesPayments=[];
+let activeVehicleExpenses=[];
+function activeSalesFile(){return salesFiles.find(x=>x.id===activeSalesFileId)}
+function receiptNumber(){return `RC-${new Date().getFullYear()}-${String(Date.now()).slice(-7)}`}
+function switchSalesTab(name){
+  document.querySelectorAll('.sales-tab').forEach(b=>b.classList.toggle('active',b.dataset.salesTab===name));
+  document.querySelectorAll('.sales-tab-panel').forEach(p=>p.classList.remove('active'));
+  const map={overview:salesTabOverview,payments:salesTabPayments,expenses:salesTabExpenses};if(map[name])map[name].classList.add('active');
+}
+async function loadSalesFileFinancials(){
+  const sf=activeSalesFile();if(!sf)return;
+  const [p,e]=await Promise.all([
+    sb.from('payments').select('*').eq('sales_file_id',sf.id).order('paid_at',{ascending:false}),
+    sb.from('vehicle_expenses').select('*').eq('vehicle_id',sf.vehicle_id).order('expense_date',{ascending:false})
+  ]);
+  if(p.error)paymentMessage.textContent='Erreur: '+p.error.message;else activeSalesPayments=p.data||[];
+  if(e.error)expenseMessage.textContent='Erreur: '+e.error.message;else activeVehicleExpenses=e.data||[];
+  renderSalesFileDetail();
+}
+function financialNumbers(sf){
+  const c=sf?.contracts||{},v=sf?.vehicles||{};
+  const total=Number(c.total_amount||c.sale_price||0),contractDeposit=Number(c.deposit||0);
+  const extraPaid=activeSalesPayments.reduce((a,x)=>a+Number(x.amount||0),0),paid=contractDeposit+extraPaid,balance=Math.max(0,total-paid);
+  const baseVehicleCost=Number(v.purchase_price||v.cost||0)+Number(v.preparation_cost||0)+Number(v.transport_cost||0)+Number(v.inspection_cost||0)+Number(v.other_cost||0);
+  const expenses=activeVehicleExpenses.reduce((a,x)=>a+Number(x.amount||0),0),totalCost=baseVehicleCost+expenses;
+  const saleBeforeTax=Number(c.sale_price||0)+Number(c.fees||0)-Number(c.discount||0),profit=saleBeforeTax-totalCost;
+  return{total,contractDeposit,extraPaid,paid,balance,baseVehicleCost,expenses,totalCost,saleBeforeTax,profit};
+}
+function renderSalesFileDetail(){
+  const sf=activeSalesFile();if(!sf)return;const c=sf.contracts||{},u=sf.customers||{},v=sf.vehicles||{},n=financialNumbers(sf);
+  salesFileModalTitle.textContent=sf.file_number||'Dossier de vente';salesFileSubtitle.textContent=`${customerName(u)} · ${v.title||[v.make,v.model,v.year].filter(Boolean).join(' ')} · ${contractNumber(c)}`;
+  salesOverviewStats.innerHTML=`<article><span>Total</span><strong>${money(n.total)}</strong></article><article><span>Payé</span><strong>${money(n.paid)}</strong></article><article><span>Solde</span><strong>${money(n.balance)}</strong></article><article><span>Profit estimé</span><strong class="${n.profit<0?'negative':'positive'}">${money(n.profit)}</strong></article>`;
+  salesCustomerCard.innerHTML=`<strong>${esc(customerName(u))}</strong><p>${esc(fullAddress(u))}</p><p>${esc(u.phone||'—')}</p><p>${esc(u.email||'—')}</p>`;
+  salesVehicleCard.innerHTML=`<div class="sales-vehicle-mini"><img src="${esc(image(v))}"><div><strong>${esc(v.title||[v.make,v.model,v.year].filter(Boolean).join(' '))}</strong><p>VIN: ${esc(v.vin||'—')}</p><p>${km(v.mileage||0)}</p></div></div>`;
+  salesContractCard.innerHTML=`<strong>${esc(contractNumber(c))}</strong><p>Statut: ${esc(c.status||'Brouillon')}</p><p>Total: ${money(n.total)}</p><p>Solde: ${money(n.balance)}</p>`;
+  paymentSummary.innerHTML=`<article><span>Total contrat</span><strong>${money(n.total)}</strong></article><article><span>Dépôt au contrat</span><strong>${money(n.contractDeposit)}</strong></article><article><span>Autres paiements</span><strong>${money(n.extraPaid)}</strong></article><article><span>Solde</span><strong>${money(n.balance)}</strong></article>`;
+  paymentsBody.innerHTML=activeSalesPayments.map(p=>`<tr><td>${new Date(p.paid_at).toLocaleString('fr-CA')}</td><td>${esc(p.payment_type||'Paiement')}</td><td>${esc(p.payment_method||'—')}</td><td>${esc(p.receipt_number||'—')}</td><td><strong>${money(p.amount)}</strong></td><td><button class="table-btn danger" onclick="deleteSalesPayment('${p.id}')">Supprimer</button></td></tr>`).join('')||'<tr><td colspan="6">Aucun paiement additionnel.</td></tr>';
+  profitSummary.innerHTML=`<article><span>Prix avant taxes</span><strong>${money(n.saleBeforeTax)}</strong></article><article><span>Coût de base</span><strong>${money(n.baseVehicleCost)}</strong></article><article><span>Dépenses ajoutées</span><strong>${money(n.expenses)}</strong></article><article><span>Profit estimé</span><strong class="${n.profit<0?'negative':'positive'}">${money(n.profit)}</strong></article>`;
+  expensesBody.innerHTML=activeVehicleExpenses.map(x=>`<tr><td>${new Date(x.expense_date+'T12:00:00').toLocaleDateString('fr-CA')}</td><td>${esc(x.category||'Autre')}</td><td>${esc(x.supplier||'—')}</td><td>${esc(x.description||'—')}</td><td><strong>${money(x.amount)}</strong></td><td><button class="table-btn danger" onclick="deleteVehicleExpense('${x.id}')">Supprimer</button></td></tr>`).join('')||'<tr><td colspan="6">Aucun coût additionnel.</td></tr>';
+}
+window.openSalesFile=async id=>{activeSalesFileId=id;activeSalesPayments=[];activeVehicleExpenses=[];paymentMessage.textContent='';expenseMessage.textContent='';switchSalesTab('overview');salesFileModal.classList.add('open');renderSalesFileDetail();await loadSalesFileFinancials()};
+async function refreshContractBalance(){
+ const sf=activeSalesFile();if(!sf)return;const n=financialNumbers(sf),c=sf.contracts||{};
+ const {error}=await sb.from('contracts').update({balance_amount:n.balance,updated_at:new Date().toISOString()}).eq('id',c.id);if(!error){c.balance_amount=n.balance;const ci=contracts.findIndex(x=>x.id===c.id);if(ci>=0)contracts[ci].balance_amount=n.balance;}
+}
+window.deleteSalesPayment=async id=>{if(!confirm('Supprimer ce paiement?'))return;const {error}=await sb.from('payments').delete().eq('id',id);if(error){paymentMessage.textContent='Erreur: '+error.message;return}activeSalesPayments=activeSalesPayments.filter(x=>x.id!==id);await refreshContractBalance();renderSalesFileDetail();await loadSalesFiles()};
+window.deleteVehicleExpense=async id=>{if(!confirm('Supprimer ce coût?'))return;const {error}=await sb.from('vehicle_expenses').delete().eq('id',id);if(error){expenseMessage.textContent='Erreur: '+error.message;return}activeVehicleExpenses=activeVehicleExpenses.filter(x=>x.id!==id);renderSalesFileDetail()};
+
+
+closeSalesFileModal.addEventListener('click',()=>salesFileModal.classList.remove('open'));
+document.querySelectorAll('.sales-tab').forEach(b=>b.addEventListener('click',()=>switchSalesTab(b.dataset.salesTab)));
+showPaymentForm.addEventListener('click',()=>{paymentForm.classList.remove('hidden');paymentForm.elements.paid_at.value=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16)});
+cancelPaymentForm.addEventListener('click',()=>paymentForm.classList.add('hidden'));
+showExpenseForm.addEventListener('click',()=>{expenseForm.classList.remove('hidden');expenseForm.elements.expense_date.value=new Date().toISOString().slice(0,10)});
+cancelExpenseForm.addEventListener('click',()=>expenseForm.classList.add('hidden'));
+salesAddPaymentQuick.addEventListener('click',()=>{switchSalesTab('payments');showPaymentForm.click()});
+salesAddExpenseQuick.addEventListener('click',()=>{switchSalesTab('expenses');showExpenseForm.click()});
+salesOpenContract.addEventListener('click',()=>{const sf=activeSalesFile();if(sf?.contract_id){salesFileModal.classList.remove('open');openContractDocument(sf.contract_id)}});
+paymentForm.addEventListener('submit',async e=>{e.preventDefault();const sf=activeSalesFile();if(!sf)return;const fd=new FormData(paymentForm),payload={sales_file_id:sf.id,contract_id:sf.contract_id,payment_type:fd.get('payment_type'),payment_method:fd.get('payment_method'),amount:Number(fd.get('amount')||0),receipt_number:receiptNumber(),paid_at:new Date(fd.get('paid_at')).toISOString(),notes:fd.get('notes')||null};paymentMessage.textContent='Enregistrement…';const {data,error}=await sb.from('payments').insert(payload).select().single();if(error){paymentMessage.textContent='Erreur: '+error.message;return}activeSalesPayments.unshift(data);paymentForm.reset();paymentForm.classList.add('hidden');await refreshContractBalance();renderSalesFileDetail();await loadSalesFiles();paymentMessage.textContent='Paiement enregistré.'});
+expenseForm.addEventListener('submit',async e=>{e.preventDefault();const sf=activeSalesFile();if(!sf)return;const fd=new FormData(expenseForm),payload={vehicle_id:sf.vehicle_id,category:fd.get('category'),supplier:fd.get('supplier')||null,description:fd.get('description')||null,amount:Number(fd.get('amount')||0),expense_date:fd.get('expense_date')};expenseMessage.textContent='Enregistrement…';const {data,error}=await sb.from('vehicle_expenses').insert(payload).select().single();if(error){expenseMessage.textContent='Erreur: '+error.message;return}activeVehicleExpenses.unshift(data);expenseForm.reset();expenseForm.classList.add('hidden');renderSalesFileDetail();expenseMessage.textContent='Coût enregistré.'});
+
 document.addEventListener('DOMContentLoaded',()=>{fillSettingsForm();renderSettingsPreview();showPage(location.hash.replace('#','')||'dashboard');calculate();requireAuth()});
