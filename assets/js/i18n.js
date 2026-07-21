@@ -7,6 +7,12 @@
 
   const frToEn = {
     'Accueil': 'Home',
+    'SHARBO AUTO · LAVAL': 'SHARBO AUTO · LAVAL',
+    "Des véhicules d'exception.": 'Exceptional pre-owned vehicles.',
+    'Sélectionnés avec soin. Financement simple. Service personnalisé.': 'Carefully selected. Simple financing. Personalized service.',
+    'Demander un financement': 'Request financing',
+    'Besoin de financement?': 'Need financing?',
+    'Faire une demande': 'Apply now',
     'Inventaire': 'Inventory',
     'Financement': 'Financing',
     'À propos': 'About',
