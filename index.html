@@ -3,55 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Accueil | Sharbo Auto</title>
-  <meta name="description" content="Sharbo Auto - Véhicules d'occasion, financement 1re, 2e et 3e chance au Québec.">
-
+  <title>Sharbo Auto | Véhicules d'occasion à Laval</title>
+  <meta name="description" content="Découvrez l'inventaire de Sharbo Auto à Laval. Véhicules d'occasion sélectionnés, financement 1re, 2e et 3e chance et service transparent.">
+  <meta property="og:title" content="Sharbo Auto | Véhicules d'occasion à Laval">
+  <meta property="og:description" content="Véhicules d'occasion sélectionnés, financement flexible et service professionnel.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/assets/images/hero.jpg">
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <style>
-    .premium-icon{
-      width:76px;
-      height:76px;
-      border-radius:22px;
-      background:linear-gradient(135deg,#111,#2b2b2b);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:18px;
-      box-shadow:0 12px 28px rgba(0,0,0,.18);
-    }
-
-    .premium-icon i{
-      font-size:31px;
-      color:#d71920;
-    }
-
-    .card{
-      transition:all .25s ease;
-      border:1px solid #eee;
-    }
-
-    .card:hover{
-      transform:translateY(-6px);
-      box-shadow:0 18px 40px rgba(0,0,0,.12);
-    }
-
-    .hero{
-  background:
-    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
-    url("assets/images/hero.jpg") center/cover no-repeat;
-  color:white;
-}
-
-    .hero h1,.hero p{
-      color:white;
-    }
-  </style>
 </head>
-
-<body>
-
+<body class="home-v3">
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   if (window.location.hash.includes("invite_token") || window.location.hash.includes("recovery_token")) {
@@ -59,22 +19,21 @@
   }
 </script>
 
-<div class="topbar">
+<div class="topbar home-topbar-v3">
   <div class="container">
-    <span>438-927-7272</span>
-    <span>2260 Boulevard des Laurentides Laval, QC H7M 2Y7</span>
-    <span>hashem@sharboauto.com</span>
+    <a href="tel:4389277272">438-927-7272</a>
+    <span>2260 Boulevard des Laurentides, Laval</span>
+    <a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a>
   </div>
 </div>
 
-<header>
+<header class="home-header-v3">
   <div class="container nav">
-    <a class="brand" href="index.html">
+    <a class="brand" href="index.html" aria-label="Sharbo Auto — Accueil">
       <img src="assets/images/logo.png" alt="Sharbo Auto">
       <span>SHARBO AUTO</span>
     </a>
-
-    <nav class="menu">
+    <nav class="menu" aria-label="Navigation principale">
       <a href="index.html">Accueil</a>
       <a href="inventaire.html" data-t="inventory">Inventaire</a>
       <a href="financement.html" data-t="financing">Financement</a>
@@ -85,95 +44,110 @@
   </div>
 </header>
 
-<section class="hero">
-  <div class="container">
-    <h1 data-t="heroTitle">Trouvez votre prochain véhicule chez Sharbo Auto</h1>
-    <p data-t="heroText">Véhicules d'occasion de qualité, financement flexible et service professionnel au Québec.</p>
-    <div class="hero-actions">
-      <a class="btn" href="inventaire.html" data-t="viewInventory">Voir l'inventaire</a>
-      <a class="btn dark" href="financement.html" data-t="apply">Demande de financement</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="title">
-      <h2 data-t="why">Pourquoi choisir Sharbo Auto</h2>
-      <p>Service professionnel, transparent et rapide.</p>
-    </div>
-
-    <div class="grid">
-      <div class="card">
-        <div class="premium-icon"><i class="fa-solid fa-car-rear"></i></div>
-        <h3>Véhicules inspectés</h3>
-        <p>Sélection de véhicules d'occasion de qualité.</p>
-      </div>
-
-      <div class="card">
-        <div class="premium-icon"><i class="fa-solid fa-shield-halved"></i></div>
-        <h3>Carfax disponible</h3>
-        <p>Rapport disponible pour plus de transparence.</p>
-      </div>
-
-      <div class="card">
-        <div class="premium-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
-        <h3>Financement flexible</h3>
-        <p>1re, 2e et 3e chance au crédit.</p>
-      </div>
-
-      <div class="card">
-        <div class="premium-icon"><i class="fa-solid fa-headset"></i></div>
-        <h3>Service personnalisé</h3>
-        <p>Accompagnement simple du début à la fin.</p>
+<main>
+  <section class="home-hero-v3">
+    <div class="home-hero-overlay-v3"></div>
+    <div class="container home-hero-content-v3">
+      <p class="home-kicker-v3">VÉHICULES D'OCCASION · LAVAL</p>
+      <h1 data-t="heroTitle">Trouvez votre prochain véhicule chez Sharbo Auto</h1>
+      <p class="home-hero-copy-v3" data-t="heroText">Des véhicules sélectionnés avec soin, un financement flexible et un accompagnement clair du premier contact jusqu'à la livraison.</p>
+      <div class="home-hero-actions-v3">
+        <a class="home-btn-v3 home-btn-primary-v3" href="inventaire.html" data-t="viewInventory">Voir l'inventaire</a>
+        <a class="home-btn-v3 home-btn-outline-v3" href="financement.html" data-t="apply">Demande de financement</a>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="section gray">
-  <div class="container">
-    <div class="title">
-      <h2 data-t="featured">Véhicules en vedette</h2>
+    <div class="container home-hero-strip-v3">
+      <div><span>01</span><strong>Inventaire sélectionné</strong><small>Des véhicules présentés clairement.</small></div>
+      <div><span>02</span><strong>Financement flexible</strong><small>1re, 2e et 3e chance.</small></div>
+      <div><span>03</span><strong>Service transparent</strong><small>Une expérience simple et professionnelle.</small></div>
     </div>
-    <div class="cars" id="featuredCars"></div>
-  </div>
-</section>
+  </section>
 
-<section class="section">
-  <div class="container cta">
-    <div>
-      <h2>Obtenez votre approbation rapidement</h2>
-      <p>Financement 1re, 2e et 3e chance au crédit.</p>
+  <section class="home-intro-v3">
+    <div class="container home-intro-grid-v3">
+      <div>
+        <p class="home-section-label-v3">SHARBO AUTO</p>
+        <h2>Une façon plus simple d'acheter votre prochain véhicule.</h2>
+      </div>
+      <div>
+        <p>Notre approche est directe : des informations claires, des véhicules bien présentés et une équipe disponible pour répondre à vos questions.</p>
+        <a class="home-text-link-v3" href="about.html">Découvrir Sharbo Auto <span>→</span></a>
+      </div>
     </div>
-    <a class="btn dark" href="financement.html">Faire une demande</a>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="container footer-grid">
-    <div>
-      <h3>Sharbo Auto</h3>
-      <p>Véhicules d'occasion de qualité au Québec.</p>
+  <section class="home-featured-v3">
+    <div class="container">
+      <div class="home-section-head-v3">
+        <div>
+          <p class="home-section-label-v3">NOTRE SÉLECTION</p>
+          <h2 data-t="featured">Véhicules en vedette</h2>
+        </div>
+        <a class="home-text-link-v3" href="inventaire.html">Voir tout l'inventaire <span>→</span></a>
+      </div>
+      <div class="cars inventory-grid-v2 home-featured-grid-v3" id="featuredCars"></div>
     </div>
+  </section>
 
-    <div>
-      <h4>Contact</h4>
-      <p>
-        <a href="tel:4389277272">438-927-7272</a><br>
-        <a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a>
-      </p>
+  <section class="home-process-v3">
+    <div class="container">
+      <div class="home-section-head-v3">
+        <div>
+          <p class="home-section-label-v3">UNE EXPÉRIENCE CLAIRE</p>
+          <h2 data-t="why">Pourquoi choisir Sharbo Auto</h2>
+        </div>
+      </div>
+      <div class="home-process-grid-v3">
+        <article><span>01</span><h3>Choisissez votre véhicule</h3><p>Consultez les photos, le prix, le kilométrage et les principales informations en un seul endroit.</p></article>
+        <article><span>02</span><h3>Parlez-nous de votre projet</h3><p>Planifiez un essai routier ou remplissez votre demande de financement en ligne.</p></article>
+        <article><span>03</span><h3>Finalisez simplement</h3><p>Notre équipe vous accompagne clairement jusqu'à la prise de possession.</p></article>
+      </div>
     </div>
+  </section>
 
-    <div>
-      <h4>Suivez-nous</h4>
-      <a href="https://www.instagram.com/sharbo_auto" target="_blank">Instagram</a>
+  <section class="home-finance-v3">
+    <div class="container home-finance-grid-v3">
+      <div class="home-finance-copy-v3">
+        <p class="home-section-label-v3">FINANCEMENT AUTOMOBILE</p>
+        <h2>Une demande simple, rapide et confidentielle.</h2>
+        <p>Commencez votre demande en ligne. Nous proposons des solutions de financement adaptées à plusieurs profils de crédit.</p>
+        <a class="home-btn-v3 home-btn-primary-v3" href="financement.html">Commencer ma demande</a>
+      </div>
+      <div class="home-finance-steps-v3">
+        <div><span>01</span><strong>Remplissez votre demande</strong><small>Quelques minutes suffisent.</small></div>
+        <div><span>02</span><strong>Recevez un suivi</strong><small>Notre équipe analyse votre dossier.</small></div>
+        <div><span>03</span><strong>Choisissez votre véhicule</strong><small>Finalisez votre achat avec confiance.</small></div>
+      </div>
     </div>
+  </section>
+
+  <section class="home-contact-v3">
+    <div class="container home-contact-grid-v3">
+      <div>
+        <p class="home-section-label-v3">VENEZ NOUS VOIR</p>
+        <h2>Sharbo Auto à Laval</h2>
+        <p>2260 Boulevard des Laurentides<br>Laval, QC H7M 2Y7</p>
+      </div>
+      <div class="home-contact-actions-v3">
+        <a href="tel:4389277272"><small>TÉLÉPHONE</small><strong>438-927-7272</strong></a>
+        <a href="mailto:hashem@sharboauto.com"><small>COURRIEL</small><strong>hashem@sharboauto.com</strong></a>
+        <a href="contact.html"><small>INFORMATIONS</small><strong>Nous contacter</strong></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="home-footer-v3">
+  <div class="container home-footer-grid-v3">
+    <div><h3>SHARBO AUTO</h3><p>Véhicules d'occasion et financement automobile à Laval.</p></div>
+    <div><h4>Navigation</h4><a href="inventaire.html">Inventaire</a><a href="financement.html">Financement</a><a href="about.html">À propos</a></div>
+    <div><h4>Contact</h4><a href="tel:4389277272">438-927-7272</a><a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a><a href="https://www.instagram.com/sharbo_auto" target="_blank" rel="noopener">Instagram</a></div>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
-<script src="assets/js/main.js"></script><script src="assets/js/public-4.0.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/public-4.0.js"></script>
 </body>
 </html>

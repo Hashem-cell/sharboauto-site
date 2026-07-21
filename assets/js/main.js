@@ -100,23 +100,32 @@ function statusBadge(c) {
 
 function carCard(c) {
   const img = safeImages(c)[0];
+  const title = c.title || [c.year, c.make || c.brand, c.model, c.trim].filter(Boolean).join(" ");
+  const status = c.status || "Disponible";
+  const isSold = String(status).toLowerCase().includes("vend");
+  const stock = c.stock_number ? `<span>No ${String(c.stock_number).replace(/</g, "&lt;")}</span>` : "";
 
   return `
-    <article class="car">
-      <div style="position:relative;">
+    <article class="car inventory-card-v2">
+      <a class="inventory-card-media-v2" href="/vehicle.html?id=${encodeURIComponent(c.id)}" aria-label="Voir ${title || "le véhicule"}">
         ${statusBadge(c)}
-        <img src="${img}" alt="${c.title}" loading="lazy">
-      </div>
-      <div class="car-body">
-        <h3>${c.title || ""}</h3>
-        <div class="price">${money(c.price)}</div>
-        <div class="specs">
-          <span>${c.year || ""}</span>
-          <span>${km(c.mileage)}</span>
-          <span>${c.transmission || ""}</span>
-          <span>${c.fuel || ""}</span>
+        <img src="${img}" alt="${title || "Véhicule"}" loading="lazy">
+        <span class="inventory-card-view-v2">Voir le véhicule</span>
+      </a>
+      <div class="car-body inventory-card-body-v2">
+        <div class="inventory-card-meta-v2"><span>${c.year || ""}</span>${stock}</div>
+        <h3><a href="/vehicle.html?id=${encodeURIComponent(c.id)}">${title || ""}</a></h3>
+        <div class="price inventory-price-v2">${money(c.price)}</div>
+        <dl class="inventory-specs-v2">
+          <div><dt>Kilométrage</dt><dd>${c.mileage !== null && c.mileage !== undefined ? km(c.mileage) : "—"}</dd></div>
+          <div><dt>Transmission</dt><dd>${c.transmission || "—"}</dd></div>
+          <div><dt>Carburant</dt><dd>${c.fuel || "—"}</dd></div>
+          <div><dt>Version</dt><dd>${c.trim || "—"}</dd></div>
+        </dl>
+        <div class="inventory-card-actions-v2">
+          <a class="inventory-card-primary-v2 ${isSold ? "is-sold" : ""}" href="/vehicle.html?id=${encodeURIComponent(c.id)}">${isSold ? "Voir les détails" : "Voir les détails"}</a>
+          <a class="inventory-card-secondary-v2" href="financement.html?vehicle=${encodeURIComponent(c.id)}">Financement</a>
         </div>
-        <a class="btn" href="/vehicle.html?id=${encodeURIComponent(c.id)}" data-t="details">Voir les détails</a>
       </div>
     </article>
   `;
@@ -141,44 +150,59 @@ async function setupInventory() {
   if (!grid) return;
 
   const all = await getCars();
-
   const q = document.getElementById("q");
   const brand = document.getElementById("brand");
   const year = document.getElementById("year");
   const max = document.getElementById("maxPrice");
+  const sort = document.getElementById("inventorySort");
+  const count = document.getElementById("inventoryCount");
+  const reset = document.getElementById("resetInventoryFilters");
 
-  brand.innerHTML =
-    '<option value="">Marque</option>' +
-    [...new Set(all.map(c => c.brand).filter(Boolean))]
-      .sort()
-      .map(x => `<option>${x}</option>`)
-      .join("");
+  brand.innerHTML = '<option value="">Toutes</option>' + [...new Set(all.map(c => c.brand || c.make).filter(Boolean))]
+    .sort((a,b) => String(a).localeCompare(String(b), "fr"))
+    .map(x => `<option value="${x}">${x}</option>`).join("");
 
-  year.innerHTML =
-    '<option value="">Année</option>' +
-    [...new Set(all.map(c => c.year).filter(Boolean))]
-      .sort((a, b) => b - a)
-      .map(x => `<option>${x}</option>`)
-      .join("");
+  year.innerHTML = '<option value="">Toutes</option>' + [...new Set(all.map(c => c.year).filter(Boolean))]
+    .sort((a,b) => b-a).map(x => `<option value="${x}">${x}</option>`).join("");
 
   function render() {
-    const query = (q.value || "").toLowerCase();
+    const query = (q.value || "").trim().toLowerCase();
+    let list = all.filter(c => {
+      const haystack = [c.title, c.brand, c.make, c.model, c.trim, c.year, c.stock_number].filter(Boolean).join(" ").toLowerCase();
+      return (!query || haystack.includes(query)) &&
+        (!brand.value || (c.brand || c.make) === brand.value) &&
+        (!year.value || String(c.year) === String(year.value)) &&
+        (!max.value || Number(c.price || 0) <= Number(max.value));
+    });
 
-    const list = all.filter(c =>
-      (!query || `${c.title} ${c.brand} ${c.model} ${c.year}`.toLowerCase().includes(query)) &&
-      (!brand.value || c.brand === brand.value) &&
-      (!year.value || String(c.year) === String(year.value)) &&
-      (!max.value || Number(c.price) <= Number(max.value))
-    );
+    const mode = sort?.value || "featured";
+    list = [...list].sort((a,b) => {
+      if (mode === "price-asc") return Number(a.price || 0) - Number(b.price || 0);
+      if (mode === "price-desc") return Number(b.price || 0) - Number(a.price || 0);
+      if (mode === "year-desc") return Number(b.year || 0) - Number(a.year || 0);
+      if (mode === "mileage-asc") return Number(a.mileage || 0) - Number(b.mileage || 0);
+      return Number(Boolean(b.pinned || b.featured)) - Number(Boolean(a.pinned || a.featured));
+    });
 
-    grid.innerHTML = list.length
-      ? list.map(carCard).join("")
-      : "<p>Aucun véhicule trouvé.</p>";
-
+    if (count) count.textContent = `${list.length} véhicule${list.length === 1 ? "" : "s"}`;
+    grid.innerHTML = list.length ? list.map(carCard).join("") : `
+      <div class="inventory-empty-v2">
+        <h2>Aucun véhicule trouvé</h2>
+        <p>Modifiez vos critères ou réinitialisez les filtres.</p>
+        <button type="button" id="emptyResetInventory">Réinitialiser</button>
+      </div>`;
+    document.getElementById("emptyResetInventory")?.addEventListener("click", resetFilters);
     t();
   }
 
-  document.querySelectorAll(".filter").forEach(e => e.addEventListener("input", render));
+  function resetFilters() {
+    q.value = ""; brand.value = ""; year.value = ""; max.value = "";
+    if (sort) sort.value = "featured";
+    render();
+  }
+
+  [q, brand, year, max, sort].filter(Boolean).forEach(e => e.addEventListener(e.tagName === "SELECT" ? "change" : "input", render));
+  reset?.addEventListener("click", resetFilters);
   render();
 }
 

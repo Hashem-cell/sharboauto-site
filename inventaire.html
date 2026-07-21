@@ -1,3 +1,61 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Inventaire | Sharbo Auto</title><meta name="description" content="Sharbo Auto - Véhicules d'occasion, financement 1re, 2e et 3e chance au Québec."><link rel="stylesheet" href="assets/css/style.css"></head><body><div class="topbar"><div class="container"><span>438-927-7272</span><span>2260 Boulevard des Laurentides Laval, QC H7M 2Y7</span><span>hashem@sharboauto.com</span></div></div><header><div class="container nav"><a class="brand" href="index.html"><img src="assets/images/logo.png" alt="Sharbo Auto"><span>SHARBO AUTO</span></a><nav class="menu"><a href="index.html">Accueil</a><a href="inventaire.html" data-t="inventory">Inventaire</a><a href="financement.html" data-t="financing">Financement</a><a href="about.html" data-t="about">À propos</a><a href="contact.html" data-t="contact">Contact</a><button class="lang" onclick="toggleLang()">FR / EN</button></nav></div></header><section class="section gray"><div class="container"><div class="title"><h1>Inventaire</h1><p>Recherchez votre prochain véhicule.</p></div><div class="filters"><input class="filter" id="q" placeholder="Recherche"><select class="filter" id="brand"></select><select class="filter" id="year"></select><input class="filter" id="maxPrice" type="number" placeholder="Prix max"></div><div class="cars" id="inventoryGrid"></div></div></section><footer><div class="container footer-grid"><div><h3>Sharbo Auto</h3><p>Véhicules d'occasion de qualité au Québec.</p></div><div><h4>Contact</h4><p><a href="tel:4389277272">438-927-7272</a><br><a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a></p></div><div><h4>Suivez-nous</h4><a href="https://www.instagram.com/sharbo_auto" target="_blank">Instagram</a></div></div></footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
-<script src="assets/js/main.js"></script><script src="assets/js/public-4.0.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventaire | Sharbo Auto</title>
+  <meta name="description" content="Découvrez l'inventaire de véhicules d'occasion de Sharbo Auto à Laval.">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="inventory-page-v2">
+  <div class="topbar"><div class="container"><span>438-927-7272</span><span>2260 Boulevard des Laurentides Laval, QC H7M 2Y7</span><span>hashem@sharboauto.com</span></div></div>
+  <header><div class="container nav"><a class="brand" href="index.html"><img src="assets/images/logo.png" alt="Sharbo Auto"><span>SHARBO AUTO</span></a><nav class="menu"><a href="index.html">Accueil</a><a href="inventaire.html" data-t="inventory" aria-current="page">Inventaire</a><a href="financement.html" data-t="financing">Financement</a><a href="about.html" data-t="about">À propos</a><a href="contact.html" data-t="contact">Contact</a><button class="lang" onclick="toggleLang()">FR / EN</button></nav></div></header>
+
+  <main>
+    <section class="inventory-hero-v2">
+      <div class="container inventory-hero-inner-v2">
+        <div>
+          <p class="inventory-kicker-v2">VÉHICULES D’OCCASION</p>
+          <h1>Notre inventaire</h1>
+          <p>Une sélection claire, facile à comparer et mise à jour directement depuis notre système de gestion.</p>
+        </div>
+        <a class="inventory-finance-link-v2" href="financement.html">Demande de financement</a>
+      </div>
+    </section>
+
+    <section class="inventory-section-v2">
+      <div class="container">
+        <div class="inventory-toolbar-v2">
+          <div class="inventory-search-v2">
+            <label for="q">Rechercher</label>
+            <input class="filter" id="q" placeholder="Marque, modèle ou année">
+          </div>
+          <div class="inventory-filter-v2"><label for="brand">Marque</label><select class="filter" id="brand"></select></div>
+          <div class="inventory-filter-v2"><label for="year">Année</label><select class="filter" id="year"></select></div>
+          <div class="inventory-filter-v2"><label for="maxPrice">Prix maximum</label><input class="filter" id="maxPrice" type="number" inputmode="numeric" placeholder="Ex. 25 000"></div>
+          <button id="resetInventoryFilters" class="inventory-reset-v2" type="button">Réinitialiser</button>
+        </div>
+
+        <div class="inventory-results-head-v2">
+          <div><strong id="inventoryCount">0 véhicule</strong><span> disponible</span></div>
+          <select id="inventorySort" aria-label="Trier l'inventaire">
+            <option value="featured">Recommandés</option>
+            <option value="price-asc">Prix : croissant</option>
+            <option value="price-desc">Prix : décroissant</option>
+            <option value="year-desc">Année : récente</option>
+            <option value="mileage-asc">Kilométrage : croissant</option>
+          </select>
+        </div>
+
+        <div class="cars inventory-grid-v2" id="inventoryGrid" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer-grid"><div><h3>Sharbo Auto</h3><p>Véhicules d'occasion de qualité au Québec.</p></div><div><h4>Contact</h4><p><a href="tel:4389277272">438-927-7272</a><br><a href="mailto:hashem@sharboauto.com">hashem@sharboauto.com</a></p></div><div><h4>Suivez-nous</h4><a href="https://www.instagram.com/sharbo_auto" target="_blank" rel="noopener">Instagram</a></div></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/public-4.0.js"></script>
+</body>
+</html>
