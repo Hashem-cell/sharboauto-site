@@ -4,7 +4,13 @@
   const money40 = v => Number(v || 0).toLocaleString('fr-CA',{style:'currency',currency:'CAD'});
   let selected = null;
   function db(){ return window.sb || window.supabaseClient || null; }
-  function allVehicles(){ return Array.isArray(window.vehicles) ? window.vehicles : []; }
+  function allVehicles(){
+    if(typeof window.getSharboVehicles==='function'){
+      const list=window.getSharboVehicles();
+      return Array.isArray(list)?list:[];
+    }
+    return Array.isArray(window.vehicles)?window.vehicles:[];
+  }
   function vehicleUrl(v){ return `${location.origin.replace(/\/admin-v2\/?$/,'')}/vehicle.html?id=${encodeURIComponent(v.id)}`; }
 
   function fillVehicles(){
@@ -88,6 +94,8 @@
   function init(){
     if(!$('opsVehicleSelect'))return;fillVehicles();$('opsVehicleSelect').addEventListener('change',selectVehicle);$('togglePublishBtn').addEventListener('click',togglePublish);document.querySelectorAll('[data-print]').forEach(b=>b.addEventListener('click',()=>printDoc(b.dataset.print)));$('exportVehiclesCsv').addEventListener('click',exportCsv);$('importVehiclesCsv').addEventListener('change',e=>e.target.files[0]&&importCsv(e.target.files[0]));$('generateAiBtn').addEventListener('click',generate);$('copyAiBtn').addEventListener('click',()=>navigator.clipboard.writeText($('aiResult').value));$('applyDescriptionsBtn').addEventListener('click',applyDescriptions);
     document.querySelectorAll('.nav-link').forEach(b=>b.addEventListener('click',()=>setTimeout(fillVehicles,100)));
+    window.addEventListener('sharbo:vehicles-loaded',fillVehicles);
+    setTimeout(fillVehicles,300);
     setInterval(fillVehicles,5000);
   }
   document.addEventListener('DOMContentLoaded',init);

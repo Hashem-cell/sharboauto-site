@@ -1,5 +1,8 @@
 const sb = window.supabase.createClient(window.SHARBO_SUPABASE_URL, window.SHARBO_SUPABASE_KEY);
+window.sb = sb;
 let vehicles=[];
+window.getSharboVehicles = () => vehicles;
+window.loadVehicles = loadVehicles;
 let customers=[];
 let contracts=[];
 let contractTypes=[];
@@ -14,7 +17,7 @@ const image=v=>(v.images&&v.images[0])||'../assets/images/logo.png';
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function normalize(row){const detailed=(row.vehicle_images||[]).sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));return {...row,brand:row.make,title:row.title||[row.make,row.model,row.year].filter(Boolean).join(' '),vehicle_images:detailed,images:detailed.map(x=>x.image_url)}}
 async function requireAuth(){const {data:{session}}=await sb.auth.getSession();document.querySelector('#loginScreen').classList.toggle('hidden',!!session);if(session){await Promise.all([loadVehicles(),loadCustomers(),loadContractTypes(),loadCompanySettings()]);await loadContracts();await loadSalesFiles()}}
-async function loadVehicles(){const {data,error}=await sb.from('vehicles').select('*, vehicle_images(*)').order('pinned',{ascending:false}).order('display_order',{ascending:true}).order('created_at',{ascending:false});if(error){setStatus('Erreur Supabase');console.error(error);vehicles=[]}else{vehicles=(data||[]).map(normalize);setStatus('Connecté à Supabase')}renderAll()}
+async function loadVehicles(){const {data,error}=await sb.from('vehicles').select('*, vehicle_images(*)').order('pinned',{ascending:false}).order('display_order',{ascending:true}).order('created_at',{ascending:false});if(error){setStatus('Erreur Supabase');console.error(error);vehicles=[]}else{vehicles=(data||[]).map(normalize);setStatus('Connecté à Supabase')}renderAll();window.dispatchEvent(new CustomEvent('sharbo:vehicles-loaded',{detail:{count:vehicles.length}}))}
 function setStatus(t){document.querySelector('#connectionStatus').textContent=t}
 function renderAll(){const total=vehicles.length,available=vehicles.filter(v=>(v.status||'Disponible')==='Disponible').length,sold=vehicles.filter(v=>String(v.status).toLowerCase().includes('vend')).length;statTotal.textContent=total;statAvailable.textContent=available;statSold.textContent=sold;statValue.textContent=money(vehicles.reduce((s,v)=>s+Number(v.price||0),0));recentVehicles.innerHTML=vehicles.slice(0,5).map(v=>`<div class="vehicle-row"><img src="${esc(image(v))}"><div><strong>${esc(v.title)}</strong><small>${km(v.mileage)} · ${esc(v.status||'Disponible')}</small></div><b>${money(v.price)}</b></div>`).join('')||'<p>Aucun véhicule.</p>';renderBars(total);renderInventory()}
 function renderBars(total){const groups=['Disponible','Réservé','Vendu'].map(name=>({name,count:vehicles.filter(v=>String(v.status||'Disponible').toLowerCase().startsWith(name.toLowerCase().slice(0,4))).length}));statusBars.innerHTML=groups.map(g=>`<div><div class="bar-label"><span>${g.name}</span><strong>${g.count}</strong></div><div class="bar-track"><div class="bar-fill" style="width:${total?g.count/total*100:0}%"></div></div></div>`).join('')}
