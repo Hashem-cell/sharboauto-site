@@ -191,60 +191,179 @@ async function setupVehicle() {
   const c = cars.find(x => String(x.id) === String(id)) || cars[0];
 
   if (!c) {
-    el.innerHTML = "<p>Véhicule introuvable.</p>";
+    el.innerHTML = '<div class="vehicle-empty"><h1>Véhicule introuvable</h1><a class="btn dark" href="/inventaire.html">Retour à l’inventaire</a></div>';
     return;
   }
 
   const images = safeImages(c);
+  const title = c.title || [c.year, c.make || c.brand, c.model, c.trim].filter(Boolean).join(" ");
+  document.title = `${title} | Sharbo Auto`;
+
+  const esc = value => String(value ?? "")
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+  const specs = [
+    ["Année", c.year],
+    ["Kilométrage", c.mileage !== null && c.mileage !== undefined ? km(c.mileage) : ""],
+    ["Transmission", c.transmission],
+    ["Carburant", c.fuel],
+    ["Version", c.trim],
+    ["Couleur", c.color],
+    ["Moteur", c.engine],
+    ["No d’inventaire", c.stock_number]
+  ].filter(([, value]) => value !== null && value !== undefined && String(value).trim() !== "");
+
+  const description = (lang === "en" ? c.description_en : c.description_fr) || c.description_fr || c.description_en ||
+    "Rapport Carfax disponible sur demande. Contactez-nous pour obtenir plus d’information sur ce véhicule.";
+
   const carfax = c.carfax
-    ? `<a class="btn outline" href="${c.carfax}" target="_blank">Voir Carfax</a>`
+    ? `<a class="vehicle-btn vehicle-btn-secondary" href="${esc(c.carfax)}" target="_blank" rel="noopener">Voir le Carfax</a>`
     : "";
 
+  const status = c.status || "Disponible";
+  const statusClass = String(status).toLowerCase().includes("vend") ? "sold" : String(status).toLowerCase().includes("réserv") ? "reserved" : "available";
+
+  el.dataset.vehicleV2 = "1";
   el.innerHTML = `
-    <div class="about">
-      <div>
-        <img 
-          id="mainVehicleImage" 
-          class="detail-img" 
-          src="${images[0]}" 
-          alt="${c.title}"
-          style="width:100%;max-height:520px;object-fit:cover;border-radius:16px;"
-        >
+    <article class="vehicle-v2">
+      <div class="vehicle-breadcrumb"><a href="/inventaire.html">Inventaire</a><span>/</span><span>${esc(title)}</span></div>
 
-        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
-          ${images.map((img, i) => `
-            <img
-              src="${img}"
-              alt="${c.title} ${i + 1}"
-              onclick="document.getElementById('mainVehicleImage').src='${img}'"
-              style="width:90px;height:70px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid #ddd;"
-            >
-          `).join("")}
-        </div>
+      <div class="vehicle-layout">
+        <section class="vehicle-gallery" aria-label="Photos du véhicule">
+          <div class="vehicle-main-media">
+            <span class="vehicle-status ${statusClass}">${esc(status)}</span>
+            <button class="gallery-arrow prev" type="button" aria-label="Photo précédente">‹</button>
+            <img id="mainVehicleImage" src="${esc(images[0])}" alt="${esc(title)}" data-index="0">
+            <button class="gallery-arrow next" type="button" aria-label="Photo suivante">›</button>
+            <button class="gallery-count" type="button" aria-label="Ouvrir la galerie">1 / ${images.length}</button>
+          </div>
+          <div class="vehicle-thumbs" role="list">
+            ${images.map((img, i) => `<button type="button" class="vehicle-thumb ${i === 0 ? "active" : ""}" data-index="${i}" aria-label="Afficher la photo ${i + 1}"><img src="${esc(img)}" alt="${esc(title)} — photo ${i + 1}" loading="lazy"></button>`).join("")}
+          </div>
+        </section>
+
+        <aside class="vehicle-summary">
+          <div class="vehicle-summary-top">
+            <p class="vehicle-eyebrow">VÉHICULE D’OCCASION</p>
+            <h1>${esc(title)}</h1>
+            <div class="vehicle-price">${money(c.price)}</div>
+            <p class="vehicle-price-note">Prix affiché avant taxes et immatriculation.</p>
+          </div>
+
+          <dl class="vehicle-key-specs">
+            ${specs.slice(0, 4).map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}
+          </dl>
+
+          <div class="vehicle-actions">
+            <a class="vehicle-btn vehicle-btn-primary" href="/financement.html?vehicle=${encodeURIComponent(title)}&vehicle_id=${encodeURIComponent(c.id)}">Demande de financement</a>
+            <button class="vehicle-btn vehicle-btn-secondary" type="button" onclick="openTestDrive('${String(title).replace(/'/g, "\\'")}')">Réserver un essai routier</button>
+            <div class="vehicle-actions-row">
+              <a class="vehicle-btn vehicle-btn-quiet" href="tel:4389277272">Appeler</a>
+              <a class="vehicle-btn vehicle-btn-quiet" target="_blank" rel="noopener" href="https://wa.me/14389277272?text=${encodeURIComponent('Bonjour, je suis intéressé par ce véhicule : ' + title + ' — ' + location.href)}">WhatsApp</a>
+            </div>
+            ${carfax}
+          </div>
+
+          <div class="vehicle-contact-note">
+            <strong>Sharbo Auto</strong>
+            <span>2260 Boulevard des Laurentides, Laval</span>
+            <span>438-927-7272</span>
+          </div>
+        </aside>
       </div>
 
-      <div>
-        <h1>${c.title || ""}</h1>
-        <div class="price">${money(c.price)}</div>
+      <div class="vehicle-content-grid">
+        <section class="vehicle-panel">
+          <p class="vehicle-section-kicker">PRÉSENTATION</p>
+          <h2>À propos de ce véhicule</h2>
+          <p class="vehicle-description">${esc(description)}</p>
+        </section>
 
-        <p>${c.description_fr || "Rapport Carfax disponible sur demande. Contactez-nous pour plus d'information."}</p>
-
-        <p><b>VIN:</b> ${c.vin || "Sur demande"}</p>
-        <p><b>Année:</b> ${c.year || ""}</p>
-        <p><b>Kilométrage:</b> ${km(c.mileage)}</p>
-        <p><b>Transmission:</b> ${c.transmission || ""}</p>
-        <p><b>Carburant:</b> ${c.fuel || ""}</p>
-        <p><b>Statut:</b> ${c.status || "Disponible"}</p>
-
-        <a class="btn" href="/financement.html">Demande de financement</a>
-        <a class="btn dark" href="/contact.html">Contact</a>
-        <button class="btn" type="button" onclick="openTestDrive('${String(c.title || "").replace(/'/g, "\\'")}')">
-          Réserver un essai routier
-        </button>
-        ${carfax}
+        <section class="vehicle-panel">
+          <p class="vehicle-section-kicker">INFORMATIONS</p>
+          <h2>Fiche technique</h2>
+          <dl class="vehicle-spec-table">
+            ${specs.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}
+            <div><dt>VIN</dt><dd>${esc(c.vin || "Disponible sur demande")}</dd></div>
+            <div><dt>Statut</dt><dd>${esc(status)}</dd></div>
+          </dl>
+        </section>
       </div>
+
+      <section class="vehicle-confidence">
+        <div><span>01</span><strong>Financement flexible</strong><p>Solutions de financement adaptées à votre situation.</p></div>
+        <div><span>02</span><strong>Carfax disponible</strong><p>Historique du véhicule accessible lorsqu’il est fourni.</p></div>
+        <div><span>03</span><strong>Service professionnel</strong><p>Accompagnement clair avant, pendant et après l’achat.</p></div>
+      </section>
+    </article>
+
+    <div class="vehicle-mobile-bar">
+      <div><span>${esc(title)}</span><strong>${money(c.price)}</strong></div>
+      <a href="/financement.html?vehicle=${encodeURIComponent(title)}&vehicle_id=${encodeURIComponent(c.id)}">Financement</a>
+    </div>
+
+    <div class="vehicle-lightbox" id="vehicleLightbox" aria-hidden="true">
+      <button class="vehicle-lightbox-close" type="button" aria-label="Fermer">×</button>
+      <button class="vehicle-lightbox-prev" type="button" aria-label="Photo précédente">‹</button>
+      <img src="${esc(images[0])}" alt="${esc(title)}">
+      <button class="vehicle-lightbox-next" type="button" aria-label="Photo suivante">›</button>
+      <span class="vehicle-lightbox-count">1 / ${images.length}</span>
     </div>
   `;
+
+  let activeIndex = 0;
+  const mainImage = el.querySelector("#mainVehicleImage");
+  const count = el.querySelector(".gallery-count");
+  const lightbox = el.querySelector("#vehicleLightbox");
+  const lightboxImage = lightbox.querySelector("img");
+  const lightboxCount = lightbox.querySelector(".vehicle-lightbox-count");
+
+  const showImage = index => {
+    activeIndex = (index + images.length) % images.length;
+    mainImage.src = images[activeIndex];
+    mainImage.dataset.index = activeIndex;
+    count.textContent = `${activeIndex + 1} / ${images.length}`;
+    lightboxImage.src = images[activeIndex];
+    lightboxCount.textContent = `${activeIndex + 1} / ${images.length}`;
+    el.querySelectorAll(".vehicle-thumb").forEach((thumb, i) => thumb.classList.toggle("active", i === activeIndex));
+    el.querySelector(`.vehicle-thumb[data-index="${activeIndex}"]`)?.scrollIntoView({behavior:"smooth", block:"nearest", inline:"center"});
+  };
+
+  const openGallery = () => {
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.classList.add("no-scroll");
+  };
+  const closeGallery = () => {
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("no-scroll");
+  };
+
+  el.querySelectorAll(".vehicle-thumb").forEach(thumb => thumb.addEventListener("click", () => showImage(Number(thumb.dataset.index))));
+  el.querySelector(".gallery-arrow.prev").addEventListener("click", () => showImage(activeIndex - 1));
+  el.querySelector(".gallery-arrow.next").addEventListener("click", () => showImage(activeIndex + 1));
+  el.querySelector(".gallery-count").addEventListener("click", openGallery);
+  mainImage.addEventListener("click", openGallery);
+  lightbox.querySelector(".vehicle-lightbox-close").addEventListener("click", closeGallery);
+  lightbox.querySelector(".vehicle-lightbox-prev").addEventListener("click", () => showImage(activeIndex - 1));
+  lightbox.querySelector(".vehicle-lightbox-next").addEventListener("click", () => showImage(activeIndex + 1));
+  lightbox.addEventListener("click", e => { if (e.target === lightbox) closeGallery(); });
+  document.addEventListener("keydown", e => {
+    if (!lightbox.classList.contains("open")) return;
+    if (e.key === "Escape") closeGallery();
+    if (e.key === "ArrowLeft") showImage(activeIndex - 1);
+    if (e.key === "ArrowRight") showImage(activeIndex + 1);
+  });
+
+  let touchStartX = 0;
+  mainImage.addEventListener("touchstart", e => touchStartX = e.changedTouches[0].screenX, {passive:true});
+  mainImage.addEventListener("touchend", e => {
+    const delta = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(delta) > 45) showImage(activeIndex + (delta < 0 ? 1 : -1));
+  }, {passive:true});
 }
 
 function openTestDrive(vehicleName) {
