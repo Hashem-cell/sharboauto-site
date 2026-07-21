@@ -37,7 +37,7 @@
     <div class="sales-file-tabs">
       <button type="button" class="sales-tab active" data-sales-tab="overview">Vue d’ensemble</button>
       <button type="button" class="sales-tab" data-sales-tab="payments">Paiements</button>
-      <button type="button" class="sales-tab" data-sales-tab="expenses">Coûts & profit</button><button type="button" class="sales-tab" data-sales-tab="documents">Documents</button><button type="button" class="sales-tab" data-sales-tab="signatures">Signatures</button><button type="button" class="sales-tab" data-sales-tab="timeline">Timeline</button>
+      <button type="button" class="sales-tab" data-sales-tab="expenses">Coûts & profit</button><button type="button" class="sales-tab" data-sales-tab="billing">Facture & livraison</button><button type="button" class="sales-tab" data-sales-tab="documents">Documents</button><button type="button" class="sales-tab" data-sales-tab="signatures">Signatures</button><button type="button" class="sales-tab" data-sales-tab="timeline">Timeline</button>
     </div>
     <div id="salesTabOverview" class="sales-tab-panel active">
       <div id="salesOverviewStats" class="sales-kpis"></div>
@@ -77,6 +77,34 @@
       <div class="table-wrap"><table><thead><tr><th>Date</th><th>Catégorie</th><th>Fournisseur</th><th>Description</th><th>Montant</th><th></th></tr></thead><tbody id="expensesBody"></tbody></table></div>
     </div>
 
+
+    <div id="salesTabBilling" class="sales-tab-panel">
+      <div class="split-head"><div><h3>Facture, reçu & livraison</h3><p class="muted">Calcul TPS seulement, garantie optionnelle, échange et checklist de livraison.</p></div><div class="entry-actions"><button id="printInvoice32" class="primary" type="button">Imprimer la facture</button><button id="printReceipt32" type="button">Créer un reçu</button></div></div>
+      <form id="billingForm32" class="billing32-grid">
+        <article class="panel"><h3>Facturation</h3><div class="settings-grid">
+          <label>Frais administratifs<input name="admin_fee" type="number" step="0.01" value="150"></label>
+          <label class="check32"><input name="admin_fee_enabled" type="checkbox" checked> Appliquer les frais</label>
+          <label>Garantie optionnelle<input name="warranty_amount" type="number" step="0.01" value="0"></label>
+          <label>Fournisseur de garantie<input name="warranty_provider"></label>
+          <label>Durée de garantie<input name="warranty_term" placeholder="Ex. 24 mois"></label>
+          <label>Taxes<select name="tax_mode"><option value="gst_only">TPS 5 % — TVQ payée à la SAAQ</option><option value="gst_qst">TPS + TVQ</option><option value="none">Aucune taxe</option></select></label>
+          <label>Mode de paiement<select name="payment_method"><option>Comptant</option><option>Financement</option><option>Virement bancaire</option><option>Carte de crédit</option><option>Carte de débit</option><option>Chèque</option><option>Paiements multiples</option></select></label>
+          <label class="full">Notes de facturation<textarea name="billing_notes" rows="3"></textarea></label>
+        </div><div id="billingTotals32" class="invoice-totals32"></div></article>
+        <article class="panel"><h3>Livraison</h3><div class="settings-grid">
+          <label>Date de livraison<input name="delivery_date" type="date"></label>
+          <label>Kilométrage à la livraison<input name="delivery_mileage" type="number" min="0"></label>
+          <label>Nombre de clés<input name="keys_count" type="number" min="0" value="1"></label>
+          <label class="check32"><input name="manual_delivered" type="checkbox"> Manuel remis</label>
+          <label class="check32"><input name="vehicle_clean" type="checkbox"> Véhicule livré propre</label>
+          <label class="check32"><input name="second_key" type="checkbox"> Deuxième clé remise</label>
+        </div><h3>Échange de véhicule</h3><div class="settings-grid">
+          <label class="check32 full"><input name="trade_enabled" type="checkbox"> Échange applicable</label>
+          <label>Marque<input name="trade_make"></label><label>Modèle<input name="trade_model"></label><label>Année<input name="trade_year" type="number"></label><label>VIN<input name="trade_vin"></label><label>Kilométrage<input name="trade_mileage" type="number"></label><label>Valeur accordée<input name="trade_value" type="number" step="0.01" value="0"></label><label>Solde du prêt<input name="trade_loan_balance" type="number" step="0.01" value="0"></label>
+        </div></article>
+        <article class="panel billing32-full"><div class="split-head"><div><h3>Checklist de livraison</h3><p class="muted">Tous les éléments doivent être confirmés avant la livraison finale.</p></div><button id="saveBilling32" class="primary" type="submit">Enregistrer</button></div><div id="deliveryChecklist32" class="checklist32"></div><div class="entry-actions"><button id="deliverVehicle32" class="primary" type="button">✓ Livrer le véhicule</button><span id="billingMessage32" class="saved"></span></div></article>
+      </form>
+    </div>
     <div id="salesTabDocuments" class="sales-tab-panel">
       <div class="split-head"><div><h3>Centre de documents</h3><p class="muted">Carfax, permis, assurance, contrat, facture et autres pièces.</p></div></div>
       <form id="documentForm" class="inline-entry">
@@ -99,4 +127,4 @@
     </div>
   </div>
 </div>
-<script src="admin.js"></script><script src="admin-3.1.js"></script></body></html>
+<script src="admin.js"></script><script src="admin-3.1.js"></script><script src="admin-3.2.js"></script></body></html>
