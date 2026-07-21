@@ -52,7 +52,7 @@
       <a href="financement.html">Financement</a>
       <a href="about.html">À propos</a>
       <a href="contact.html">Contact</a>
-      <button class="lang" type="button" onclick="toggleLangFinance()">FR / EN</button>
+      <button class="lang" type="button" onclick="toggleLangFinance()">EN</button>
     </nav>
   </div>
 </header>
@@ -183,9 +183,10 @@
 </div>
 </footer>
 
+<script src="assets/js/i18n.js"></script>
 <script>
 let currentStep = 0;
-let financeLang = localStorage.getItem("lang") || "fr";
+let financeLang = window.SharboI18n ? window.SharboI18n.lang : (localStorage.getItem("lang") || "fr");
 
 const steps = document.querySelectorAll(".form-step");
 const progress = document.querySelectorAll(".progress div");
@@ -194,20 +195,21 @@ const nextBtn = document.getElementById("nextBtn");
 const submitBtn = document.getElementById("submitBtn");
 
 function applyFinanceLang(){
-  document.documentElement.lang = financeLang;
-  localStorage.setItem("lang", financeLang);
-  document.querySelectorAll("[data-fr]").forEach(el=>{
-    el.textContent = el.dataset[financeLang];
-  });
+  financeLang = window.SharboI18n ? window.SharboI18n.lang : financeLang;
+  if (window.SharboI18n) window.SharboI18n.applyLanguage({silent:true});
   prevBtn.textContent = financeLang === "fr" ? "← Retour" : "← Back";
   nextBtn.textContent = financeLang === "fr" ? "Suivant →" : "Next →";
   submitBtn.textContent = financeLang === "fr" ? "Envoyer ma demande" : "Submit application";
 }
 
 function toggleLangFinance(){
-  financeLang = financeLang === "fr" ? "en" : "fr";
-  applyFinanceLang();
+  if (window.SharboI18n) window.SharboI18n.toggleLanguage();
 }
+
+document.addEventListener("sharbo:languagechange", e => {
+  financeLang = e.detail.lang;
+  applyFinanceLang();
+});
 
 function showStep(n){
   steps.forEach((step,i)=>step.classList.toggle("active",i===n));
@@ -251,7 +253,7 @@ document.getElementById("financeForm").addEventListener("submit", async function
     currentStep = 0;
     showStep(currentStep);
   }catch(error){
-    alert("Une erreur est survenue. Veuillez réessayer.");
+    alert(financeLang === "fr" ? "Une erreur est survenue. Veuillez réessayer." : "Something went wrong. Please try again.");
   }
 });
 

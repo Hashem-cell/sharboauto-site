@@ -1,46 +1,8 @@
-const dict = {
-  fr: {
-    inventory: "Inventaire",
-    financing: "Financement",
-    about: "À propos",
-    contact: "Contact",
-    heroTitle: "Trouvez votre prochain véhicule chez Sharbo Auto",
-    heroText: "Véhicules d'occasion de qualité, financement flexible et service professionnel au Québec.",
-    viewInventory: "Voir l'inventaire",
-    apply: "Demande de financement",
-    why: "Pourquoi choisir Sharbo Auto",
-    featured: "Véhicules en vedette",
-    details: "Voir les détails"
-  },
-  en: {
-    inventory: "Inventory",
-    financing: "Financing",
-    about: "About",
-    contact: "Contact",
-    heroTitle: "Find your next vehicle at Sharbo Auto",
-    heroText: "Quality pre-owned vehicles, flexible financing and professional service in Quebec.",
-    viewInventory: "View inventory",
-    apply: "Apply for financing",
-    why: "Why choose Sharbo Auto",
-    featured: "Featured vehicles",
-    details: "View details"
-  }
-};
-
-let lang = localStorage.getItem("lang") || "fr";
-
-function t() {
-  document.querySelectorAll("[data-t]").forEach(e => {
-    e.textContent = dict[lang][e.dataset.t] || e.textContent;
-  });
-  document.documentElement.lang = lang;
-}
-
-function toggleLang() {
-  lang = lang === "fr" ? "en" : "fr";
-  localStorage.setItem("lang", lang);
-  t();
-}
+function currentLang() { return window.SharboI18n ? window.SharboI18n.lang : (localStorage.getItem("lang") || "fr"); }
+function tr(fr, en) { return window.SharboI18n ? window.SharboI18n.t(fr, en) : (currentLang() === "fr" ? fr : en); }
+function vehicleValue(value) { return window.SharboI18n ? window.SharboI18n.translateVehicleValue(value) : value; }
+function t() { if (window.SharboI18n) window.SharboI18n.applyLanguage({silent:true}); }
+function toggleLang() { if (window.SharboI18n) window.SharboI18n.toggleLanguage(); }
 
 async function getCars() {
   try {
@@ -82,11 +44,11 @@ async function getCars() {
 }
 
 function money(value) {
-  return "$" + Number(value || 0).toLocaleString("fr-CA");
+  return "$" + Number(value || 0).toLocaleString(currentLang() === "fr" ? "fr-CA" : "en-CA");
 }
 
 function km(value) {
-  return Number(value || 0).toLocaleString("fr-CA") + " km";
+  return Number(value || 0).toLocaleString(currentLang() === "fr" ? "fr-CA" : "en-CA") + " km";
 }
 
 function safeImages(car) {
@@ -95,36 +57,36 @@ function safeImages(car) {
 
 function statusBadge(c) {
   if (!c.status || c.status === "Disponible") return "";
-  return `<div class="status-badge">${c.status}</div>`;
+  return `<div class="status-badge">${vehicleValue(c.status)}</div>`;
 }
 
 function carCard(c) {
   const img = safeImages(c)[0];
   const title = c.title || [c.year, c.make || c.brand, c.model, c.trim].filter(Boolean).join(" ");
-  const status = c.status || "Disponible";
+  const status = vehicleValue(c.status || "Disponible");
   const isSold = String(status).toLowerCase().includes("vend");
   const stock = c.stock_number ? `<span>No ${String(c.stock_number).replace(/</g, "&lt;")}</span>` : "";
 
   return `
     <article class="car inventory-card-v2">
-      <a class="inventory-card-media-v2" href="/vehicle.html?id=${encodeURIComponent(c.id)}" aria-label="Voir ${title || "le véhicule"}">
+      <a class="inventory-card-media-v2" href="/vehicle.html?id=${encodeURIComponent(c.id)}" aria-label="${tr("Voir", "View")} ${title || tr("le véhicule", "vehicle")}">
         ${statusBadge(c)}
-        <img src="${img}" alt="${title || "Véhicule"}" loading="lazy">
-        <span class="inventory-card-view-v2">Voir le véhicule</span>
+        <img src="${img}" alt="${title || tr("Véhicule", "Vehicle")}" loading="lazy">
+        <span class="inventory-card-view-v2">${tr("Voir le véhicule", "View vehicle")}</span>
       </a>
       <div class="car-body inventory-card-body-v2">
         <div class="inventory-card-meta-v2"><span>${c.year || ""}</span>${stock}</div>
         <h3><a href="/vehicle.html?id=${encodeURIComponent(c.id)}">${title || ""}</a></h3>
         <div class="price inventory-price-v2">${money(c.price)}</div>
         <dl class="inventory-specs-v2">
-          <div><dt>Kilométrage</dt><dd>${c.mileage !== null && c.mileage !== undefined ? km(c.mileage) : "—"}</dd></div>
-          <div><dt>Transmission</dt><dd>${c.transmission || "—"}</dd></div>
-          <div><dt>Carburant</dt><dd>${c.fuel || "—"}</dd></div>
-          <div><dt>Version</dt><dd>${c.trim || "—"}</dd></div>
+          <div><dt>${tr("Kilométrage", "Mileage")}</dt><dd>${c.mileage !== null && c.mileage !== undefined ? km(c.mileage) : "—"}</dd></div>
+          <div><dt>${tr("Transmission", "Transmission")}</dt><dd>${vehicleValue(c.transmission) || "—"}</dd></div>
+          <div><dt>${tr("Carburant", "Fuel")}</dt><dd>${vehicleValue(c.fuel) || "—"}</dd></div>
+          <div><dt>${tr("Version", "Trim")}</dt><dd>${c.trim || "—"}</dd></div>
         </dl>
         <div class="inventory-card-actions-v2">
-          <a class="inventory-card-primary-v2 ${isSold ? "is-sold" : ""}" href="/vehicle.html?id=${encodeURIComponent(c.id)}">${isSold ? "Voir les détails" : "Voir les détails"}</a>
-          <a class="inventory-card-secondary-v2" href="financement.html?vehicle=${encodeURIComponent(c.id)}">Financement</a>
+          <a class="inventory-card-primary-v2 ${isSold ? "is-sold" : ""}" href="/vehicle.html?id=${encodeURIComponent(c.id)}">${tr("Voir les détails", "View details")}</a>
+          <a class="inventory-card-secondary-v2" href="financement.html?vehicle=${encodeURIComponent(c.id)}">${tr("Financement", "Financing")}</a>
         </div>
       </div>
     </article>
@@ -140,7 +102,7 @@ async function loadFeatured() {
 
   el.innerHTML = list.length
     ? list.map(carCard).join("")
-    : "<p>Aucun véhicule pour le moment.</p>";
+    : `<p>${tr("Aucun véhicule pour le moment.", "No vehicles are currently available.")}</p>`;
 
   t();
 }
@@ -158,11 +120,11 @@ async function setupInventory() {
   const count = document.getElementById("inventoryCount");
   const reset = document.getElementById("resetInventoryFilters");
 
-  brand.innerHTML = '<option value="">Toutes</option>' + [...new Set(all.map(c => c.brand || c.make).filter(Boolean))]
-    .sort((a,b) => String(a).localeCompare(String(b), "fr"))
+  brand.innerHTML = `<option value="">${tr('Toutes', 'All')}</option>` + [...new Set(all.map(c => c.brand || c.make).filter(Boolean))]
+    .sort((a,b) => String(a).localeCompare(String(b), currentLang() === "fr" ? "fr" : "en"))
     .map(x => `<option value="${x}">${x}</option>`).join("");
 
-  year.innerHTML = '<option value="">Toutes</option>' + [...new Set(all.map(c => c.year).filter(Boolean))]
+  year.innerHTML = `<option value="">${tr('Toutes', 'All')}</option>` + [...new Set(all.map(c => c.year).filter(Boolean))]
     .sort((a,b) => b-a).map(x => `<option value="${x}">${x}</option>`).join("");
 
   function render() {
@@ -184,12 +146,12 @@ async function setupInventory() {
       return Number(Boolean(b.pinned || b.featured)) - Number(Boolean(a.pinned || a.featured));
     });
 
-    if (count) count.textContent = `${list.length} véhicule${list.length === 1 ? "" : "s"}`;
+    if (count) count.textContent = currentLang() === "fr" ? `${list.length} véhicule${list.length === 1 ? "" : "s"}` : `${list.length} vehicle${list.length === 1 ? "" : "s"}`;
     grid.innerHTML = list.length ? list.map(carCard).join("") : `
       <div class="inventory-empty-v2">
-        <h2>Aucun véhicule trouvé</h2>
-        <p>Modifiez vos critères ou réinitialisez les filtres.</p>
-        <button type="button" id="emptyResetInventory">Réinitialiser</button>
+        <h2>${tr("Aucun véhicule trouvé", "No vehicles found")}</h2>
+        <p>${tr("Modifiez vos critères ou réinitialisez les filtres.", "Adjust your search or reset the filters.")}</p>
+        <button type="button" id="emptyResetInventory">${tr("Réinitialiser", "Reset")}</button>
       </div>`;
     document.getElementById("emptyResetInventory")?.addEventListener("click", resetFilters);
     t();
@@ -215,13 +177,13 @@ async function setupVehicle() {
   const c = cars.find(x => String(x.id) === String(id)) || cars[0];
 
   if (!c) {
-    el.innerHTML = '<div class="vehicle-empty"><h1>Véhicule introuvable</h1><a class="btn dark" href="/inventaire.html">Retour à l’inventaire</a></div>';
+    el.innerHTML = `<div class="vehicle-empty"><h1>${tr("Véhicule introuvable", "Vehicle not found")}</h1><a class="btn dark" href="/inventaire.html">${tr("Retour à l’inventaire", "Back to inventory")}</a></div>`;
     return;
   }
 
   const images = safeImages(c);
   const title = c.title || [c.year, c.make || c.brand, c.model, c.trim].filter(Boolean).join(" ");
-  document.title = `${title} | Sharbo Auto`;
+  document.body.dataset.dynamicVehicleTitle = "1"; document.title = `${title} | Sharbo Auto`;
 
   const esc = value => String(value ?? "")
     .replace(/&/g, "&amp;").replace(/</g, "&lt;")
@@ -229,51 +191,51 @@ async function setupVehicle() {
     .replace(/'/g, "&#039;");
 
   const specs = [
-    ["Année", c.year],
-    ["Kilométrage", c.mileage !== null && c.mileage !== undefined ? km(c.mileage) : ""],
-    ["Transmission", c.transmission],
-    ["Carburant", c.fuel],
-    ["Version", c.trim],
-    ["Couleur", c.color],
-    ["Moteur", c.engine],
-    ["No d’inventaire", c.stock_number]
+    [tr("Année", "Year"), c.year],
+    [tr("Kilométrage", "Mileage"), c.mileage !== null && c.mileage !== undefined ? km(c.mileage) : ""],
+    [tr("Transmission", "Transmission"), vehicleValue(c.transmission)],
+    [tr("Carburant", "Fuel"), vehicleValue(c.fuel)],
+    [tr("Version", "Trim"), c.trim],
+    [tr("Couleur", "Colour"), vehicleValue(c.color)],
+    [tr("Moteur", "Engine"), c.engine],
+    [tr("No d’inventaire", "Stock number"), c.stock_number]
   ].filter(([, value]) => value !== null && value !== undefined && String(value).trim() !== "");
 
-  const description = (lang === "en" ? c.description_en : c.description_fr) || c.description_fr || c.description_en ||
-    "Rapport Carfax disponible sur demande. Contactez-nous pour obtenir plus d’information sur ce véhicule.";
+  const description = (currentLang() === "en" ? c.description_en : c.description_fr) || c.description_fr || c.description_en ||
+    tr("Rapport Carfax disponible sur demande. Contactez-nous pour obtenir plus d’information sur ce véhicule.", "A Carfax report is available upon request. Contact us for more information about this vehicle.");
 
   const carfax = c.carfax
-    ? `<a class="vehicle-btn vehicle-btn-secondary" href="${esc(c.carfax)}" target="_blank" rel="noopener">Voir le Carfax</a>`
+    ? `<a class="vehicle-btn vehicle-btn-secondary" href="${esc(c.carfax)}" target="_blank" rel="noopener">${tr("Voir le Carfax", "View Carfax report")}</a>`
     : "";
 
-  const status = c.status || "Disponible";
+  const status = vehicleValue(c.status || "Disponible");
   const statusClass = String(status).toLowerCase().includes("vend") ? "sold" : String(status).toLowerCase().includes("réserv") ? "reserved" : "available";
 
   el.dataset.vehicleV2 = "1";
   el.innerHTML = `
     <article class="vehicle-v2">
-      <div class="vehicle-breadcrumb"><a href="/inventaire.html">Inventaire</a><span>/</span><span>${esc(title)}</span></div>
+      <div class="vehicle-breadcrumb"><a href="/inventaire.html">${tr("Inventaire", "Inventory")}</a><span>/</span><span>${esc(title)}</span></div>
 
       <div class="vehicle-layout">
-        <section class="vehicle-gallery" aria-label="Photos du véhicule">
+        <section class="vehicle-gallery" aria-label="${tr("Photos du véhicule", "Vehicle photos")}">
           <div class="vehicle-main-media">
             <span class="vehicle-status ${statusClass}">${esc(status)}</span>
-            <button class="gallery-arrow prev" type="button" aria-label="Photo précédente">‹</button>
+            <button class="gallery-arrow prev" type="button" aria-label="${tr("Photo précédente", "Previous photo")}">‹</button>
             <img id="mainVehicleImage" src="${esc(images[0])}" alt="${esc(title)}" data-index="0">
-            <button class="gallery-arrow next" type="button" aria-label="Photo suivante">›</button>
-            <button class="gallery-count" type="button" aria-label="Ouvrir la galerie">1 / ${images.length}</button>
+            <button class="gallery-arrow next" type="button" aria-label="${tr("Photo suivante", "Next photo")}">›</button>
+            <button class="gallery-count" type="button" aria-label="${tr("Ouvrir la galerie", "Open gallery")}">1 / ${images.length}</button>
           </div>
           <div class="vehicle-thumbs" role="list">
-            ${images.map((img, i) => `<button type="button" class="vehicle-thumb ${i === 0 ? "active" : ""}" data-index="${i}" aria-label="Afficher la photo ${i + 1}"><img src="${esc(img)}" alt="${esc(title)} — photo ${i + 1}" loading="lazy"></button>`).join("")}
+            ${images.map((img, i) => `<button type="button" class="vehicle-thumb ${i === 0 ? "active" : ""}" data-index="${i}" aria-label="${tr("Afficher la photo", "Show photo")} ${i + 1}"><img src="${esc(img)}" alt="${esc(title)} — photo ${i + 1}" loading="lazy"></button>`).join("")}
           </div>
         </section>
 
         <aside class="vehicle-summary">
           <div class="vehicle-summary-top">
-            <p class="vehicle-eyebrow">VÉHICULE D’OCCASION</p>
+            <p class="vehicle-eyebrow">${tr("VÉHICULE D’OCCASION", "PRE-OWNED VEHICLE")}</p>
             <h1>${esc(title)}</h1>
             <div class="vehicle-price">${money(c.price)}</div>
-            <p class="vehicle-price-note">Prix affiché avant taxes et immatriculation.</p>
+            <p class="vehicle-price-note">${tr("Prix affiché avant taxes et immatriculation.", "Price shown before taxes and registration.")}</p>
           </div>
 
           <dl class="vehicle-key-specs">
@@ -281,11 +243,11 @@ async function setupVehicle() {
           </dl>
 
           <div class="vehicle-actions">
-            <a class="vehicle-btn vehicle-btn-primary" href="/financement.html?vehicle=${encodeURIComponent(title)}&vehicle_id=${encodeURIComponent(c.id)}">Demande de financement</a>
-            <button class="vehicle-btn vehicle-btn-secondary" type="button" onclick="openTestDrive('${String(title).replace(/'/g, "\\'")}')">Réserver un essai routier</button>
+            <a class="vehicle-btn vehicle-btn-primary" href="/financement.html?vehicle=${encodeURIComponent(title)}&vehicle_id=${encodeURIComponent(c.id)}">${tr("Demande de financement", "Apply for financing")}</a>
+            <button class="vehicle-btn vehicle-btn-secondary" type="button" onclick="openTestDrive('${String(title).replace(/'/g, "\\'")}')">${tr("Réserver un essai routier", "Book a test drive")}</button>
             <div class="vehicle-actions-row">
-              <a class="vehicle-btn vehicle-btn-quiet" href="tel:4389277272">Appeler</a>
-              <a class="vehicle-btn vehicle-btn-quiet" target="_blank" rel="noopener" href="https://wa.me/14389277272?text=${encodeURIComponent('Bonjour, je suis intéressé par ce véhicule : ' + title + ' — ' + location.href)}">WhatsApp</a>
+              <a class="vehicle-btn vehicle-btn-quiet" href="tel:4389277272">${tr("Appeler", "Call")}</a>
+              <a class="vehicle-btn vehicle-btn-quiet" target="_blank" rel="noopener" href="https://wa.me/14389277272?text=${encodeURIComponent(tr('Bonjour, je suis intéressé par ce véhicule : ', 'Hello, I am interested in this vehicle: ') + title + ' — ' + location.href)}">WhatsApp</a>
             </div>
             ${carfax}
           </div>
@@ -300,39 +262,39 @@ async function setupVehicle() {
 
       <div class="vehicle-content-grid">
         <section class="vehicle-panel">
-          <p class="vehicle-section-kicker">PRÉSENTATION</p>
-          <h2>À propos de ce véhicule</h2>
+          <p class="vehicle-section-kicker">${tr("PRÉSENTATION", "OVERVIEW")}</p>
+          <h2>${tr("À propos de ce véhicule", "About this vehicle")}</h2>
           <p class="vehicle-description">${esc(description)}</p>
         </section>
 
         <section class="vehicle-panel">
-          <p class="vehicle-section-kicker">INFORMATIONS</p>
-          <h2>Fiche technique</h2>
+          <p class="vehicle-section-kicker">${tr("INFORMATIONS", "DETAILS")}</p>
+          <h2>${tr("Fiche technique", "Vehicle specifications")}</h2>
           <dl class="vehicle-spec-table">
             ${specs.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}
-            <div><dt>VIN</dt><dd>${esc(c.vin || "Disponible sur demande")}</dd></div>
-            <div><dt>Statut</dt><dd>${esc(status)}</dd></div>
+            <div><dt>VIN</dt><dd>${esc(c.vin || tr("Disponible sur demande", "Available upon request"))}</dd></div>
+            <div><dt>${tr("Statut", "Status")}</dt><dd>${esc(status)}</dd></div>
           </dl>
         </section>
       </div>
 
       <section class="vehicle-confidence">
-        <div><span>01</span><strong>Financement flexible</strong><p>Solutions de financement adaptées à votre situation.</p></div>
-        <div><span>02</span><strong>Carfax disponible</strong><p>Historique du véhicule accessible lorsqu’il est fourni.</p></div>
-        <div><span>03</span><strong>Service professionnel</strong><p>Accompagnement clair avant, pendant et après l’achat.</p></div>
+        <div><span>01</span><strong>${tr("Financement flexible", "Flexible financing")}</strong><p>${tr("Solutions de financement adaptées à votre situation.", "Financing solutions tailored to your needs.")}</p></div>
+        <div><span>02</span><strong>${tr("Carfax disponible", "Carfax available")}</strong><p>${tr("Historique du véhicule accessible lorsqu’il est fourni.", "Vehicle history available when a report is provided.")}</p></div>
+        <div><span>03</span><strong>${tr("Service professionnel", "Professional service")}</strong><p>${tr("Accompagnement clair avant, pendant et après l’achat.", "Clear support before, during, and after your purchase.")}</p></div>
       </section>
     </article>
 
     <div class="vehicle-mobile-bar">
       <div><span>${esc(title)}</span><strong>${money(c.price)}</strong></div>
-      <a href="/financement.html?vehicle=${encodeURIComponent(title)}&vehicle_id=${encodeURIComponent(c.id)}">Financement</a>
+      <a href="/financement.html?vehicle=${encodeURIComponent(title)}&vehicle_id=${encodeURIComponent(c.id)}">${tr("Financement", "Financing")}</a>
     </div>
 
     <div class="vehicle-lightbox" id="vehicleLightbox" aria-hidden="true">
-      <button class="vehicle-lightbox-close" type="button" aria-label="Fermer">×</button>
-      <button class="vehicle-lightbox-prev" type="button" aria-label="Photo précédente">‹</button>
+      <button class="vehicle-lightbox-close" type="button" aria-label="${tr("Fermer", "Close")}">×</button>
+      <button class="vehicle-lightbox-prev" type="button" aria-label="${tr("Photo précédente", "Previous photo")}">‹</button>
       <img src="${esc(images[0])}" alt="${esc(title)}">
-      <button class="vehicle-lightbox-next" type="button" aria-label="Photo suivante">›</button>
+      <button class="vehicle-lightbox-next" type="button" aria-label="${tr("Photo suivante", "Next photo")}">›</button>
       <span class="vehicle-lightbox-count">1 / ${images.length}</span>
     </div>
   `;
@@ -422,10 +384,17 @@ function setupTestDriveForm() {
       const success = document.getElementById("testDriveSuccess");
       if (success) success.style.display = "block";
     } catch (error) {
-      alert("Une erreur est survenue. Veuillez réessayer ou nous contacter directement.");
+      alert(tr("Une erreur est survenue. Veuillez réessayer ou nous contacter directement.", "Something went wrong. Please try again or contact us directly."));
     }
   });
 }
+
+
+document.addEventListener("sharbo:languagechange", () => {
+  loadFeatured();
+  setupInventory();
+  setupVehicle();
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   t();

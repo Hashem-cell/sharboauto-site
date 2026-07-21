@@ -29,7 +29,7 @@
       <a href="financement.html" data-t="financing">Financement</a>
       <a href="about.html" data-t="about">À propos</a>
       <a href="contact.html" data-t="contact">Contact</a>
-      <button class="lang" onclick="toggleLang()">FR / EN</button>
+      <button class="lang" onclick="toggleLang()">EN</button>
     </nav>
   </div>
 </header>
@@ -94,6 +94,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
+<script src="assets/js/i18n.js"></script>
 <script src="assets/js/main.js?v=vehicle-2.0"></script><script src="assets/js/public-4.0.js?v=vehicle-2.0"></script>
 
 <script>
@@ -113,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const day = selectedDate.getDay();
 
       if (day === 0 || day === 6) {
-        alert("Les essais routiers sont disponibles du lundi au vendredi seulement.");
+        alert(window.SharboI18n ? window.SharboI18n.t("Les essais routiers sont disponibles du lundi au vendredi seulement.", "Test drives are available Monday through Friday only.") : "Les essais routiers sont disponibles du lundi au vendredi seulement.");
         this.value = "";
       }
     });
