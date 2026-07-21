@@ -50,6 +50,7 @@ async function getCars() {
         .from("vehicles")
         .select("*, vehicle_images(*)")
         .is("archived_at", null)
+        .neq("published", false)
         .order("pinned", { ascending: false })
         .order("display_order", { ascending: true })
         .order("created_at", { ascending: false });
