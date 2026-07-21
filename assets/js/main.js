@@ -49,6 +49,8 @@ async function getCars() {
       const { data, error } = await client
         .from("vehicles")
         .select("*, vehicle_images(*)")
+        .order("pinned", { ascending: false })
+        .order("display_order", { ascending: true })
         .order("created_at", { ascending: false });
 
       if (!error && data && data.length) {
