@@ -4,13 +4,14 @@ let customers=[];
 let contracts=[];
 let contractTypes=[];
 let companySettings=null;
+let salesFiles=[];
 let contractStep=1;
 const money=n=>Number(n||0).toLocaleString('fr-CA',{style:'currency',currency:'CAD'});
 const km=n=>Number(n||0).toLocaleString('fr-CA')+' km';
 const image=v=>(v.images&&v.images[0])||'../assets/images/logo.png';
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function normalize(row){return {...row,brand:row.make,title:row.title||[row.make,row.model,row.year].filter(Boolean).join(' '),images:(row.vehicle_images||[]).sort((a,b)=>(a.sort_order||0)-(b.sort_order||0)).map(x=>x.image_url)}}
-async function requireAuth(){const {data:{session}}=await sb.auth.getSession();document.querySelector('#loginScreen').classList.toggle('hidden',!!session);if(session){await Promise.all([loadVehicles(),loadCustomers(),loadContractTypes(),loadCompanySettings()]);await loadContracts()}}
+async function requireAuth(){const {data:{session}}=await sb.auth.getSession();document.querySelector('#loginScreen').classList.toggle('hidden',!!session);if(session){await Promise.all([loadVehicles(),loadCustomers(),loadContractTypes(),loadCompanySettings()]);await loadContracts();await loadSalesFiles()}}
 async function loadVehicles(){const {data,error}=await sb.from('vehicles').select('*, vehicle_images(*)').order('pinned',{ascending:false}).order('display_order',{ascending:true}).order('created_at',{ascending:false});if(error){setStatus('Erreur Supabase');console.error(error);vehicles=[]}else{vehicles=(data||[]).map(normalize);setStatus('Connecté à Supabase')}renderAll()}
 function setStatus(t){document.querySelector('#connectionStatus').textContent=t}
 function renderAll(){const total=vehicles.length,available=vehicles.filter(v=>(v.status||'Disponible')==='Disponible').length,sold=vehicles.filter(v=>String(v.status).toLowerCase().includes('vend')).length;statTotal.textContent=total;statAvailable.textContent=available;statSold.textContent=sold;statValue.textContent=money(vehicles.reduce((s,v)=>s+Number(v.price||0),0));recentVehicles.innerHTML=vehicles.slice(0,5).map(v=>`<div class="vehicle-row"><img src="${esc(image(v))}"><div><strong>${esc(v.title)}</strong><small>${km(v.mileage)} · ${esc(v.status||'Disponible')}</small></div><b>${money(v.price)}</b></div>`).join('')||'<p>Aucun véhicule.</p>';renderBars(total);renderInventory()}
@@ -93,6 +94,40 @@ async function loadContracts(){
   if(error){console.error(error);contracts=[]}else contracts=data||[];
   renderContracts();
 }
+
+async function ensureSalesFile(contract){
+  if(!contract?.id)return null;
+  const {data:existing,error:findError}=await sb.from('sales_files').select('*').eq('contract_id',contract.id).maybeSingle();
+  if(findError)throw findError;
+  if(existing){
+    const {data,error}=await sb.from('sales_files').update({customer_id:contract.customer_id,vehicle_id:contract.vehicle_id,updated_at:new Date().toISOString()}).eq('id',existing.id).select().single();
+    if(error)throw error;return data;
+  }
+  const year=new Date().getFullYear();
+  const fileNumber=`DV-${year}-${String(contract.contract_number||contract.id).replace(/\D/g,'').slice(-5).padStart(5,'0')}`;
+  const {data,error}=await sb.from('sales_files').insert({file_number:fileNumber,contract_id:contract.id,customer_id:contract.customer_id,vehicle_id:contract.vehicle_id,status:'En cours'}).select().single();
+  if(error)throw error;return data;
+}
+async function loadSalesFiles(){
+  if(!window.salesFilesBody)return;
+  const {data,error}=await sb.from('sales_files').select('*, contracts(*), customers(*), vehicles(*)').order('created_at',{ascending:false});
+  if(error){console.error('Sales files:',error);salesFiles=[];salesFilesMessage.textContent='Erreur: '+error.message;}
+  else{salesFiles=data||[];salesFilesMessage.textContent='';}
+  renderSalesFiles();
+}
+function renderSalesFiles(){
+  if(!window.salesFilesBody)return;
+  salesFileTotal.textContent=salesFiles.length;
+  salesFileOpen.textContent=salesFiles.filter(x=>!['Complété','Livré','Fermé'].includes(x.status)).length;
+  salesFileDone.textContent=salesFiles.filter(x=>['Complété','Livré','Fermé'].includes(x.status)).length;
+  salesFileBalance.textContent=money(salesFiles.reduce((sum,x)=>sum+Number(x.contracts?.balance_amount||0),0));
+  salesFilesBody.innerHTML=salesFiles.map(sf=>{const c=sf.contracts||{},u=sf.customers||{},v=sf.vehicles||{};return `<tr><td><strong>${esc(sf.file_number||'Dossier')}</strong><small class="block-muted">${new Date(sf.created_at).toLocaleDateString('fr-CA')}</small></td><td>${esc(customerName(u))}<small class="block-muted">${esc(u.phone||u.email||'')}</small></td><td><strong>${esc(v.title||[v.make,v.model,v.year].filter(Boolean).join(' ')||'—')}</strong><small class="block-muted">${esc(v.vin||'')}</small></td><td>${esc(c.contract_number||'—')}</td><td>${money(c.total_amount||c.sale_price)}</td><td>${money(c.balance_amount||0)}</td><td><span class="badge">${esc(sf.status||'En cours')}</span></td><td><button class="table-btn" onclick="openContractDocument('${c.id}')">Ouvrir le contrat</button></td></tr>`}).join('')||'<tr><td colspan="8">Aucun dossier de vente.</td></tr>';
+}
+async function repairMissingSalesFiles(){
+  salesFilesMessage.textContent='Synchronisation…';
+  try{for(const c of contracts)await ensureSalesFile(c);await loadSalesFiles();salesFilesMessage.textContent='Dossiers synchronisés.';}catch(e){salesFilesMessage.textContent='Erreur: '+e.message;}
+}
+window.repairMissingSalesFiles=repairMissingSalesFiles;
 function contractCustomerName(c){return c?.customers?customerName(c.customers):'—'}
 function contractVehicleName(c){const v=c?.vehicles;return v?(v.title||[v.make,v.model,v.year].filter(Boolean).join(' ')):'—'}
 function contractNumber(c){return c.contract_number||'—'}
@@ -186,8 +221,11 @@ contractForm.addEventListener('submit',async e=>{
   try{
     const result=id?await sb.from('contracts').update(payload).eq('id',id).select():await sb.from('contracts').insert(payload).select();
     if(result.error)throw result.error;
-    contractFormMessage.textContent='Contrat enregistré.';
+    const saved=result.data?.[0];
+    if(saved)await ensureSalesFile(saved);
+    contractFormMessage.textContent='Contrat et dossier de vente enregistrés.';
     await loadContracts();
+    await loadSalesFiles();
     setTimeout(()=>contractModal.classList.remove('open'),450);
   }catch(error){
     console.error('Erreur enregistrement contrat:',error);
@@ -195,7 +233,7 @@ contractForm.addEventListener('submit',async e=>{
   }finally{contractSaveBtn.disabled=false;}
 });
 
-loginForm.addEventListener('submit',async e=>{e.preventDefault();loginError.textContent='';const fd=new FormData(loginForm),{error}=await sb.auth.signInWithPassword({email:fd.get('email'),password:fd.get('password')});if(error)loginError.textContent=error.message;else{loginScreen.classList.add('hidden');await Promise.all([loadVehicles(),loadCustomers(),loadContractTypes(),loadCompanySettings()]);await loadContracts()}});
+loginForm.addEventListener('submit',async e=>{e.preventDefault();loginError.textContent='';const fd=new FormData(loginForm),{error}=await sb.auth.signInWithPassword({email:fd.get('email'),password:fd.get('password')});if(error)loginError.textContent=error.message;else{loginScreen.classList.add('hidden');await Promise.all([loadVehicles(),loadCustomers(),loadContractTypes(),loadCompanySettings()]);await loadContracts();await loadSalesFiles()}});
 logoutBtn.addEventListener('click',async()=>{await sb.auth.signOut();location.reload()});
 document.querySelectorAll('.nav-link').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.querySelectorAll('.addVehicleBtn').forEach(b=>b.addEventListener('click',()=>openVehicle()));menuToggle.addEventListener('click',()=>document.querySelector('.sidebar').classList.toggle('open'));inventorySearch.addEventListener('input',renderInventory);customerSearch.addEventListener('input',renderCustomers);customerTypeFilter.addEventListener('change',renderCustomers);contractSearch.addEventListener('input',renderContracts);contractStatusFilter.addEventListener('change',renderContracts);contractTypeFilter.addEventListener('change',renderContracts);statusFilter.addEventListener('change',renderInventory);inventorySort.addEventListener('change',renderInventory);saveVehicleOrder.addEventListener('click',saveInventoryOrder);globalSearch.addEventListener('input',e=>{inventorySearch.value=e.target.value;showPage('inventory');renderInventory()});financeCalculator.addEventListener('input',calculate);closeVehicleModal.addEventListener('click',()=>vehicleModal.classList.remove('open'));cancelVehicle.addEventListener('click',()=>vehicleModal.classList.remove('open'));importLegacyBtn.addEventListener('click',importLegacy);addCustomerBtn.addEventListener('click',()=>openCustomer());closeCustomerModal.addEventListener('click',()=>customerModal.classList.remove('open'));cancelCustomer.addEventListener('click',()=>customerModal.classList.remove('open'));addContractBtn.addEventListener('click',()=>openContract());closeContractModal.addEventListener('click',()=>contractModal.classList.remove('open'));contractPrevBtn.addEventListener('click',()=>setContractStep(contractStep-1));contractNextBtn.addEventListener('click',()=>{if(contractStep===1&&!contractForm.elements.customer_id.value){contractFormMessage.textContent='Choisissez un client.';return}if(contractStep===2&&!contractForm.elements.vehicle_id.value){contractFormMessage.textContent='Choisissez un véhicule.';return}if(contractStep===3&&!contractForm.elements.contract_type.value){contractFormMessage.textContent='Choisissez un type de contrat. Si la liste est vide, exécutez le correctif SQL V4.2.';return}contractFormMessage.textContent='';setContractStep(contractStep+1)});contractVehicle.addEventListener('change',renderContractVehiclePreview);settingsForm.addEventListener('submit',saveCompanySettings);settingsForm.addEventListener('input',renderSettingsPreview);
 closeContractDocument.addEventListener('click',()=>contractDocumentModal.classList.remove('open'));
@@ -208,5 +246,15 @@ builderStatus.addEventListener('change',()=>{const c=activeBuilderContract();if(
 builderNotes.addEventListener('input',()=>{const c=activeBuilderContract();if(c){c.notes=builderNotes.value;contractDocument.innerHTML=contractDocumentHtml(c)}});
 markContractSigned.addEventListener('click',async()=>{builderStatus.value='Signé';const c=activeBuilderContract();if(c)c.status='Signé';await saveBuilderChanges('Contrat marqué comme signé.')});
 copyContractNumber.addEventListener('click',async()=>{const c=activeBuilderContract();if(!c)return;try{await navigator.clipboard.writeText(contractNumber(c));builderSaveMessage.textContent='Numéro copié.'}catch{builderSaveMessage.textContent=contractNumber(c)}});
-emailContractDocument.addEventListener('click',()=>{const c=activeBuilderContract();if(!c)return;const m=contractEmailData(c);if(!m.to&&!confirm('Le client n’a pas de courriel. Ouvrir quand même votre application de courriel?'))return;window.location.href=`mailto:${encodeURIComponent(m.to)}?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`});
+emailContractDocument.addEventListener('click',async()=>{
+  const c=activeBuilderContract();if(!c)return;const m=contractEmailData(c);
+  if(!m.to){builderSaveMessage.textContent='Le client n’a pas de courriel.';return}
+  builderSaveMessage.textContent='Envoi en cours…';emailContractDocument.disabled=true;
+  try{
+    const res=await fetch('/.netlify/functions/send-contract-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:m.to,subject:m.subject,body:m.body,contractNumber:contractNumber(c),customerName:contractCustomerName(c),vehicleName:contractVehicleName(c),total:money(c.total_amount||c.sale_price),company:getDealerSettings()})});
+    const out=await res.json().catch(()=>({}));if(!res.ok)throw new Error(out.error||'Échec de l’envoi');
+    builderSaveMessage.textContent='Courriel envoyé à '+m.to;
+  }catch(err){builderSaveMessage.textContent='Envoi automatique indisponible: '+err.message+' — ouverture de votre application courriel.';setTimeout(()=>{window.location.href=`mailto:${encodeURIComponent(m.to)}?subject=${encodeURIComponent(m.subject)}&body=${encodeURIComponent(m.body)}`},900)}
+  finally{emailContractDocument.disabled=false}
+});
 document.addEventListener('DOMContentLoaded',()=>{fillSettingsForm();renderSettingsPreview();showPage(location.hash.replace('#','')||'dashboard');calculate();requireAuth()});
