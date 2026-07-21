@@ -389,3 +389,34 @@ finalizeContractBtn.addEventListener('click',async()=>{const sf=activeSalesFile(
 exportSalesCsv.addEventListener('click',()=>{const sf=activeSalesFile();if(!sf)return;const n=financialNumbers(sf),rows=[['Dossier','Client','Véhicule','Total','Payé','Solde','Profit'],[sf.file_number,customerName(sf.customers||{}),(sf.vehicles||{}).title||'',n.total,n.paid,n.balance,n.profit]];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=(sf.file_number||'dossier')+'.csv';a.click();URL.revokeObjectURL(a.href);});
 
 document.addEventListener('DOMContentLoaded',()=>{fillSettingsForm();renderSettingsPreview();showPage(location.hash.replace('#','')||'dashboard');calculate();requireAuth()});
+
+/* Dashboard 6.0 — Vehicle Management Pro enhancements */
+let vehicleFormDirty=false;
+const vehicleTabButtons=[...document.querySelectorAll('.vehicle-tab')];
+const vehicleTabPanels=[...document.querySelectorAll('.vehicle-tab-panel')];
+function activateVehicleTab(name){vehicleTabButtons.forEach(b=>b.classList.toggle('active',b.dataset.vehicleTab===name));vehicleTabPanels.forEach(p=>p.classList.toggle('active',p.dataset.vehiclePanel===name));document.querySelector('.vehicle-pro-modal')?.scrollTo({top:0,behavior:'smooth'})}
+vehicleTabButtons.forEach(b=>b.addEventListener('click',()=>activateVehicleTab(b.dataset.vehicleTab)));
+function vehicleCompletion(){
+ const val=n=>String(vehicleForm.elements[n]?.value||'').trim();
+ const checks=[
+  ['Titre',!!val('title')],['Marque et modèle',!!val('make')&&!!val('model')],['Année',!!val('year')],['Prix',Number(val('price'))>0],['Kilométrage',val('mileage')!=='' ],['Photo',photoItems.length>0],['Description FR',val('description_fr').length>=40],['Description EN',val('description_en').length>=40],['Carfax',!!val('carfax')],['Caractéristiques',!!val('transmission')&&!!val('fuel')]
+ ];
+ const done=checks.filter(x=>x[1]).length,pct=Math.round(done/checks.length*100),missing=checks.filter(x=>!x[1]).map(x=>x[0]);
+ const bar=document.querySelector('#vehicleCompletionBar'),label=document.querySelector('#vehicleCompletionLabel'),text=document.querySelector('#vehicleCompletionMissing');
+ if(bar)bar.style.width=pct+'%';if(label)label.textContent=`Complété : ${pct}%`;if(text)text.textContent=missing.length?`À compléter : ${missing.slice(0,3).join(', ')}${missing.length>3?'…':''}`:'Fiche prête à publier.';
+ const price=Number(val('price')||0),cost=Number(val('cost')||0),profit=document.querySelector('#vehicleProfitPreview');if(profit)profit.textContent=money(price-cost);
+ const fr=document.querySelector('#descFrCount'),en=document.querySelector('#descEnCount');if(fr)fr.textContent=`${val('description_fr').length} caractères`;if(en)en.textContent=`${val('description_en').length} characters`;
+ const count=document.querySelector('#vehiclePhotoCount');if(count)count.textContent=`${photoItems.length} photo${photoItems.length===1?'':'s'}`;
+}
+vehicleForm.addEventListener('input',()=>{vehicleFormDirty=true;vehicleCompletion()});
+vehicleForm.addEventListener('change',()=>{vehicleFormDirty=true;vehicleCompletion()});
+vehicleForm.addEventListener('submit',()=>{vehicleFormDirty=false});
+window.addEventListener('beforeunload',e=>{if(!vehicleFormDirty)return;e.preventDefault();e.returnValue=''});
+const originalOpenVehicle=openVehicle;
+openVehicle=function(v=null){originalOpenVehicle(v);vehicleFormDirty=false;activateVehicleTab('general');setTimeout(vehicleCompletion,0)};
+const originalRenderPhotoManager=renderPhotoManager;
+renderPhotoManager=function(){originalRenderPhotoManager();vehicleCompletion()};
+const dropZone=document.querySelector('#vehiclePhotoDrop');
+if(dropZone){['dragenter','dragover'].forEach(type=>dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.add('dragover')}));['dragleave','drop'].forEach(type=>dropZone.addEventListener(type,e=>{e.preventDefault();dropZone.classList.remove('dragover')}));dropZone.addEventListener('drop',e=>{for(const file of [...e.dataTransfer.files].filter(f=>f.type.startsWith('image/')))photoItems.push({type:'new',file,url:URL.createObjectURL(file)});vehicleFormDirty=true;renderPhotoManager()})}
+document.querySelector('#duplicateVehicleBtn')?.addEventListener('click',()=>{const currentId=vehicleForm.elements.id.value;if(!currentId){vehicleFormMessage.textContent='Enregistrez d’abord le véhicule avant de le dupliquer.';return}vehicleForm.elements.id.value='';vehicleForm.elements.stock_number.value='';vehicleForm.elements.vin.value='';vehicleForm.elements.title.value=(vehicleForm.elements.title.value||'Véhicule')+' — COPIE';photoItems.forEach(x=>{if(x.type==='new'&&x.url?.startsWith('blob:'))URL.revokeObjectURL(x.url)});photoItems=[];initialExistingPhotoIds=[];renderPhotoManager();vehicleModalTitle.textContent='Dupliquer le véhicule';vehicleFormMessage.textContent='Copie préparée. Ajoutez le nouveau VIN, le numéro de stock et les photos.';vehicleFormDirty=true;activateVehicleTab('general');vehicleCompletion()});
+document.querySelector('#previewVehicleBtn')?.addEventListener('click',()=>{const id=vehicleForm.elements.id.value;if(!id){vehicleFormMessage.textContent='Enregistrez le véhicule pour ouvrir son aperçu public.';return}window.open(`../vehicle.html?id=${encodeURIComponent(id)}`,'_blank','noopener')});
