@@ -49,7 +49,7 @@ async function getCars() {
       const { data, error } = await client
         .from("vehicles")
         .select("*, vehicle_images(*)")
-        .eq("archived", false)
+        .is("archived_at", null)
         .order("pinned", { ascending: false })
         .order("display_order", { ascending: true })
         .order("created_at", { ascending: false });
