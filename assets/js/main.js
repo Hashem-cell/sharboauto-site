@@ -246,8 +246,8 @@ async function setupVehicle() {
             <a class="vehicle-btn vehicle-btn-primary" href="/financement.html?vehicle=${encodeURIComponent(title)}&vehicle_id=${encodeURIComponent(c.id)}">${tr("Demande de financement", "Apply for financing")}</a>
             <button class="vehicle-btn vehicle-btn-secondary" type="button" onclick="openTestDrive('${String(title).replace(/'/g, "\\'")}')">${tr("Réserver un essai routier", "Book a test drive")}</button>
             <div class="vehicle-actions-row">
-              <a class="vehicle-btn vehicle-btn-quiet" href="tel:4389277272">${tr("Appeler", "Call")}</a>
-              <a class="vehicle-btn vehicle-btn-quiet" target="_blank" rel="noopener" href="https://wa.me/14389277272?text=${encodeURIComponent(tr('Bonjour, je suis intéressé par ce véhicule : ', 'Hello, I am interested in this vehicle: ') + title + ' — ' + location.href)}">WhatsApp</a>
+              <a class="vehicle-btn vehicle-btn-quiet" href="tel:5149172886">${tr("Appeler", "Call")}</a>
+              <a class="vehicle-btn vehicle-btn-quiet" target="_blank" rel="noopener" href="https://wa.me/15149172886?text=${encodeURIComponent(tr('Bonjour, je suis intéressé par ce véhicule : ', 'Hello, I am interested in this vehicle: ') + title + ' — ' + location.href)}">WhatsApp</a>
             </div>
             ${carfax}
           </div>
@@ -255,7 +255,7 @@ async function setupVehicle() {
           <div class="vehicle-contact-note">
             <strong>Sharbo Auto</strong>
             <span>2260 Boulevard des Laurentides, Laval</span>
-            <span>438-927-7272</span>
+            <span>514-917-2886</span>
           </div>
         </aside>
       </div>

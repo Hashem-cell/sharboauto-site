@@ -198,7 +198,7 @@ window.editContract=id=>openContract(contracts.find(c=>c.id===id));
 window.deleteContract=async id=>{if(!confirm('Supprimer ce contrat?'))return;const {error}=await sb.from('contracts').delete().eq('id',id);if(error)alert(error.message);else await loadContracts()};
 let activeDocumentContractId=null;
 function getDealerSettings(){
-  const defaults={business_name:'Sharbo Auto',legal_name:'',phone:'438-927-7272',mobile:'',email:'hashem@sharboauto.com',website:'https://sharboauto.com',address:'',city:'',province:'Québec',postal_code:'',country:'Canada',logo_url:'../assets/images/logo.png',neq:'',gst_number:'',qst_number:'',saaq_dealer_number:'',licence_number:'',amvoq_number:'',gst_rate:5,qst_rate:9.975,default_admin_fee:0,currency:'CAD',document_footer:'',terms_fr:'',terms_en:'',default_seller_name:'',default_seller_email:'',default_seller_phone:''};
+  const defaults={business_name:'Sharbo Auto',legal_name:'',phone:'514-917-2886',mobile:'',email:'hashem@sharboauto.com',website:'https://sharboauto.com',address:'',city:'',province:'Québec',postal_code:'',country:'Canada',logo_url:'../assets/images/logo.png',neq:'',gst_number:'',qst_number:'',saaq_dealer_number:'',licence_number:'',amvoq_number:'',gst_rate:5,qst_rate:9.975,default_admin_fee:0,currency:'CAD',document_footer:'',terms_fr:'',terms_en:'',default_seller_name:'',default_seller_email:'',default_seller_phone:''};
   return {...defaults,...(companySettings||{})};
 }
 function dealerFullAddress(d){return [d.address,d.city,d.province,d.postal_code,d.country].filter(Boolean).join(', ')||'—'}
